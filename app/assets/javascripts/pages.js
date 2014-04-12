@@ -1,5 +1,7 @@
 // Variables for the map
 var map;
+var marker = [];
+var marker_count = 0;
 
 $(document).ready(function () {
     initmap();
@@ -17,7 +19,7 @@ function initmap() {
     var osmAttrib = 'Map data © OpenStreetMap contributors';
     var osm = new L.TileLayer(osmUrl, {
         minZoom: 4,
-        maxZoom: 16,
+        maxZoom: 19,
         attribution: osmAttrib
     });
     map.addLayer(osm);
