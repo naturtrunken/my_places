@@ -1,0 +1,7 @@
+<% if defined?(@conditional_js) %>
+    <% if @conditional_js[:top] %>
+        <% @conditional_js[:top].each do |js_path| %>
+            <script src="<%= js_path %>" type="text/javascript"></script>
+        <% end %>
+    <% end %>
+<% end %>

@@ -1,0 +1,14 @@
+$(document).ready(function () {
+
+    <% @places.each do |place| %>
+
+    marker_count++;
+    marker[marker_count] = L.marker(
+            [<%= place.latitude %>, <%= place.longitude %>],
+            { draggable: false }
+    );
+    marker[marker_count].addTo(map);
+
+    <% end %>
+
+});

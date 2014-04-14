@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
-  resources :organizers
-
-  resources :categories
 
   root 'pages#index'
+  get '/index' => 'pages#index',
+      :as => 'index'
+
+  resources :organizers
+  resources :categories
   resources :places
+
 end
