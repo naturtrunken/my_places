@@ -1,0 +1,14 @@
+<div data-role="panel" id="navigation">
+  <ul>
+    <% Category.all.each do |category| %>
+        <li><%=
+            link_to(
+                    category.name,
+                    '#',
+                    :class => 'category_selection_link',
+                    'data-category_id' => category.id.to_s
+            )
+        %></li>
+    <% end %>
+  </ul>
+</div>

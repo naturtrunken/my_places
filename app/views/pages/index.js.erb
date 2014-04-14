@@ -1,21 +1,30 @@
 // Variables for the map
 var map;
 var marker = [];
+var marker_data = [];
+var visible_categories = [];
 var marker_count = 0;
+
+
+$(document).ready(function () {
+    $(".category_selection_link").click(function () {
+        toggle_category($(this));
+        redraw_marker();
+        return false;
+    });
+});
 
 $(document).on('pagecreate', '#index', function (e) {
 
     // Load the map
     initmap();
 
-    // Load the markers.
-    set_marker();
+    // Create all marker.
+    create_marker();
 
     // Reload the map tiles after the (jquery mobile) initialisation again.
     setTimeout(function () {
         map.invalidateSize();
-
-
     }, 1);
 
     setTimeout(function () {
@@ -50,17 +59,69 @@ function initmap() {
 }
 
 
-// Create the marker on the map.
+// Create objects for all markers.
 // ---------------------------------------------------------------------------------------
-function set_marker() {
+function create_marker() {
     <% @places.each do |place| %>
-
+    marker_data[marker_count] = [<%= place.latitude %>, <%= place.longitude %>, <%= place.category_id %>];
     marker_count++;
-    marker[marker_count] = L.marker(
-            [<%= place.latitude %>, <%= place.longitude %>],
-            { draggable: false }
-    );
-    marker[marker_count].addTo(map);
-
     <% end %>
+}
+
+
+// Toggles a category id to the list of visible categories.
+// ---------------------------------------------------------------------------------------
+function toggle_category(e) {
+
+    // Get the category_id from the data tag of the given element.
+    var category_id = parseInt(e.attr('data-category_id'));
+
+    if ($.inArray(category_id, visible_categories) == -1) {
+
+        // The category was not selected before.
+
+        // Add the category to the list.
+        visible_categories.push(category_id);
+    } else {
+
+        // The category was selected before.
+
+        // Remove the element.
+        visible_categories.splice(visible_categories.indexOf(category_id), 1);
+    }
+}
+
+
+// Create the marker of all selected categories on the map.
+// ---------------------------------------------------------------------------------------
+function redraw_marker() {
+
+    // 1. Delete all marker.
+    for (var i = 0; i < marker.length; i++) {
+        map.removeLayer(marker[i]);
+    }
+    marker = [];
+    marker_count = 0;
+
+    // 2. Draw the selected markers.
+    for (var i = 0; i < marker_data.length; i++) {
+
+        // Contains the array visible_categories the value of the current
+        // category_id in marker[i][2]?
+        var index = $.inArray(marker_data[i][2], visible_categories);
+
+        if (index == -1) {
+            // No. Do nothing.
+            continue;
+        }
+
+        // Yes. Draw the marker on the map.
+        marker[marker_count] = L.marker(
+                [marker_data[i][0], marker_data[i][1]],
+                { draggable: false }
+        );
+        marker[marker_count].addTo(map);
+        marker_count++;
+    }
+
 }
