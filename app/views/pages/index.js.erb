@@ -14,7 +14,17 @@ $(document).on('pagecreate', '#index', function (e) {
     // Reload the map tiles after the (jquery mobile) initialisation again.
     setTimeout(function () {
         map.invalidateSize();
+
+
     }, 1);
+
+    setTimeout(function () {
+
+        // Add a button
+        $('.leaflet-control-zoom').append(
+                '<a href="#navigation">N</a>'
+        );
+    }, 3);
 
 });
 
