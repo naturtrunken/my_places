@@ -3,9 +3,19 @@ var map;
 var marker = [];
 var marker_count = 0;
 
-$(document).ready(function () {
+$(document).on('pagecreate', '#index', function (e) {
+
+    // Load the map
     initmap();
+
+    // Load the markers.
     set_marker();
+
+    // Reload the map tiles after the (jquery mobile) initialisation again.
+    setTimeout(function () {
+        map.invalidateSize();
+    }, 1);
+
 });
 
 
