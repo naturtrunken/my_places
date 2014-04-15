@@ -3,6 +3,10 @@ class PagesController < ApplicationController
   include PagesHelper
   before_filter :load_pages_js
 
+
+  # GET /
+  # GET /index
+  # ---------------------------------------------------------------------------------------
   def index
     @places = Place.all
 

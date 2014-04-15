@@ -1,15 +1,62 @@
-.ui-content {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 0 !important;
-}
-
 #map {
   height: 100%;
   width: 100%;
+}
+
+.navigation-symbol {
+  font-size: 22px;
+  padding-bottom: 2px;
+  color: #0078A8 !important;
+}
+
+
+/* ------------------------------------------------------------------------------------ */
+
+#page_content table {
+  /* 100% for small screens,
+     500px for large screens. */
+  width: 100%;
+  max-width: 500px;
+}
+
+#page_content table tbody tr {
+  border-bottom: 1px solid #ccc;
+}
+
+#page_content table tbody tr:first-child {
+  border-top: 1px solid #ccc;
+}
+
+#page_content table tbody tr td {
+  padding: 5px 5px 5px 0;
+}
+
+#page_content table tbody tr td:last-child {
+  padding-right: 0;
+}
+
+#page_content table tbody tr .action {
+  text-align: right;
+  min-width: 110px;
+}
+
+
+/* ------------------------------------------------------------------------------------ */
+
+#page_navigation {
+  margin-bottom: 1.3em;
+}
+
+#page_navigation > .left {
+  width: 48%;
+}
+
+#page_navigation > .left {
+  float: left;
+}
+
+#page_navigation > .right {
+  float: right;
 }
 
 

@@ -1,25 +1,18 @@
 <h1>Categories</h1>
 
-<div id="page_navigation">
-  <div class="left">
-    <%=
-        link_to(
-                '← Back to the map',
-                root_path
-        )
-    %>
-  </div>
-
-  <div class="right">
-    <%=
-        link_to(
-                'New Category',
-                new_category_path
-        )
-    %>
-  </div>
-  <div style="clear: both;"></div>
-</div>
+<%=
+    render(
+            'shared/page_navigation',
+            :left => link_to(
+                    '← Back to the map',
+                    root_path
+            ),
+            :right => link_to(
+                    'New Category',
+                    new_category_path
+            )
+    )
+%>
 
 <table>
   <tbody>

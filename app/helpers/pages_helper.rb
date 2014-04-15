@@ -1,10 +1,9 @@
 module PagesHelper
 
+  # Prepares the script loading for controller actions.
   # ---------------------------------------------------------------------------------------
   def load_pages_js
-    @conditional_js = Hash.new
-    @conditional_js[:top] = [] unless @conditional_js[:top]
-
+    prepare_load_js
     @conditional_js[:top].push(index_path(:js))
   end
 
