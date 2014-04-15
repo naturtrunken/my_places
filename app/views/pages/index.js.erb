@@ -82,6 +82,7 @@ function toggle_category(e) {
 
         // Add the category to the list.
         visible_categories.push(category_id);
+
     } else {
 
         // The category was selected before.
@@ -89,6 +90,9 @@ function toggle_category(e) {
         // Remove the element.
         visible_categories.splice(visible_categories.indexOf(category_id), 1);
     }
+
+    // Update the navigation view.
+    toggle_navigation_selection(category_id);
 }
 
 
@@ -125,3 +129,15 @@ function redraw_marker() {
     }
 
 }
+
+
+// Updates the state of the navigation elements.
+// ---------------------------------------------------------------------------------------
+function toggle_navigation_selection(category_id) {
+    if($('#category-' + category_id).hasClass('element_selected')) {
+        $('#category-' + category_id).removeClass('element_selected');
+    } else {
+        $('#category-' + category_id).addClass('element_selected');
+    }
+}
+

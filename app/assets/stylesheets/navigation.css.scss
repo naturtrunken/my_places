@@ -1,3 +1,16 @@
 #navigation {
   background-color: #f8f8f8;
 }
+
+#navigation ul {
+  list-style-type: none;
+}
+
+#navigation ul li {
+  border-bottom: 1px solid #ccc;
+  padding: 5px;
+}
+
+.element_selected {
+  background-color: rgba(255, 255, 0, 0.44);
+}

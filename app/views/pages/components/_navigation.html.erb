@@ -1,7 +1,7 @@
 <div data-role="panel" id="navigation">
   <ul>
     <% Category.all.each do |category| %>
-        <li><%=
+        <li id="category-<%= category.id.to_s %>"><%=
             link_to(
                     category.name,
                     '#',
