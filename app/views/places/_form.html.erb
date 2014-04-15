@@ -16,7 +16,7 @@
           select(
                   'place',
                   'category_id',
-                  options_for_select(Category.all.collect {|p| [ p.name, p.id ] }, @place.category_id)
+                  options_for_select(Category.all.collect { |p| [p.name, p.id] }, @place.category_id)
           )
       %>
     </div>
@@ -32,6 +32,15 @@
     <div class="field">
       <%= f.label :longitude %>
       <%= f.text_field :longitude %>
+    </div>
+    <div class="field">
+      <%=
+          submit_tag(
+                  'Use current position',
+                  :id => 'current_position_button',
+                  :type => 'button'
+          )
+      %>
     </div>
     <div class="field">
       <%= f.label :note %>

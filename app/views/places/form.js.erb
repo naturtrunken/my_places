@@ -1,0 +1,28 @@
+$(document).ready(function () {
+
+    // Bind the handling functions to the navigation links.
+    $("#current_position_button").click(function () {
+        get_current_position();
+        return false;
+    });
+
+});
+
+
+// Tries to fetch the current position.
+// ---------------------------------------------------------------------------------------
+function get_current_position() {
+    if (navigator.geolocation) {
+
+        navigator.geolocation.getCurrentPosition(function (position) {
+            $('#place_latitude').val(position.coords.latitude);
+            $('#place_longitude').val(position.coords.longitude);
+        });
+
+    } else {
+        alert("Sorry, can't determine your location.");
+    }
+}
+
+
+

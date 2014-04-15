@@ -1,4 +1,7 @@
 class PlacesController < ApplicationController
+
+  include PlacesHelper
+  before_filter :load_places_js
   before_action :set_place, only: [:show, :edit, :update, :destroy]
 
   # GET /places
@@ -15,10 +18,19 @@ class PlacesController < ApplicationController
   # GET /places/new
   def new
     @place = Place.new
+
+    respond_to do |format|
+      format.html { render 'new' }
+      format.js { render 'form' }
+    end
   end
 
   # GET /places/1/edit
   def edit
+    respond_to do |format|
+      format.html { render 'edit' }
+      format.js { render 'form' }
+    end
   end
 
   # POST /places
