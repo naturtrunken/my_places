@@ -12,6 +12,19 @@
   color: #0078A8 !important;
 }
 
+#categories ul li a,
+#actions ul li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 5px 5px 7px 5px;
+}
+
+#categories ul li a:hover,
+#actions ul li a:hover {
+  background-color: rgba(255, 255, 0, 0.35);
+}
+
 #categories ul,
 #actions ul {
   list-style-type: none;
@@ -20,7 +33,6 @@
 #categories ul li,
 #actions ul li {
   border-bottom: 1px solid #ccc;
-  padding: 5px 5px 7px 5px;
 }
 
 #categories ul li:first-child,
