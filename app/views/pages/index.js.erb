@@ -2,16 +2,26 @@
 var map;
 var marker = [];
 var marker_data = [];
+var marker_icon = [];
 var visible_categories = [];
 var marker_count = 0;
+var category_marker = [];
 
 
 $(document).ready(function () {
+
+    // Bind the handling functions to the navigation links.
     $(".category_selection_link").click(function () {
         toggle_category($(this));
         redraw_marker();
         return false;
     });
+
+    // Load the markers of the categories.
+    create_category_marker();
+
+    // Create the markers.
+    create_marker_objects();
 });
 
 $(document).on('pagecreate', '#index', function (e) {
@@ -122,7 +132,10 @@ function redraw_marker() {
         // Yes. Draw the marker on the map.
         marker[marker_count] = L.marker(
                 [marker_data[i][0], marker_data[i][1]],
-                { draggable: false }
+                {
+                    draggable: false,
+                    icon: marker_icon[category_marker[marker_data[i][2]]]
+                }
         );
         marker[marker_count].addTo(map);
         marker_count++;
@@ -134,10 +147,37 @@ function redraw_marker() {
 // Updates the state of the navigation elements.
 // ---------------------------------------------------------------------------------------
 function toggle_navigation_selection(category_id) {
-    if($('#category-' + category_id).hasClass('element_selected')) {
+    if ($('#category-' + category_id).hasClass('element_selected')) {
         $('#category-' + category_id).removeClass('element_selected');
     } else {
         $('#category-' + category_id).addClass('element_selected');
     }
+}
+
+
+// Creates the marker objects.
+// ---------------------------------------------------------------------------------------
+function create_marker_objects() {
+    <% Marker.all.each do |marker| %>
+    marker_icon[<%= marker.id.to_s %>] = L.icon({
+        iconUrl: '/assets/images/<%= marker.icon %>.png',
+        iconRetinaUrl: '/assets/images/<%= marker.icon %>-2x.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 40],
+        popupAnchor: [-3, -76],
+        shadowUrl: '',
+        shadowRetinaUrl: '',
+        shadowSize: [68, 95],
+        shadowAnchor: [22, 94]
+    });
+    <% end %>
+}
+
+
+// ---------------------------------------------------------------------------------------
+function create_category_marker() {
+    <% Category.all.each do |category| %>
+    category_marker[<%= category.id.to_s %>] = <%= category.marker_id %>;
+    <% end %>
 }
 
