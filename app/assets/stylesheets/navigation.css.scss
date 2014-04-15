@@ -2,21 +2,38 @@
   background-color: #f8f8f8;
 }
 
+#navigation .divider {
+  height: 20px;
+}
+
 .navigation-symbol {
   font-size: 22px;
   padding-bottom: 2px;
   color: #0078A8 !important;
 }
 
-#navigation ul {
+#categories ul,
+#actions ul {
   list-style-type: none;
 }
 
-#navigation ul li {
+#categories ul li,
+#actions ul li {
   border-bottom: 1px solid #ccc;
-  padding: 5px;
+  padding: 5px 5px 7px 5px;
+}
+
+#categories ul li:first-child,
+#actions ul li:first-child {
+  border-top: 1px solid #ccc;
 }
 
 .element_selected {
   background-color: rgba(255, 255, 0, 0.44);
+}
+
+#navigation h6 {
+  font-size: 1em;
+  color: #999;
+  margin-bottom: 10px;
 }

@@ -2,7 +2,6 @@
     <% if @place.errors.any? %>
         <div id="error_explanation">
           <h2><%= pluralize(@place.errors.count, "error") %> prohibited this place from being saved:</h2>
-
           <ul>
             <% @place.errors.full_messages.each do |message| %>
                 <li><%= message %></li>
@@ -10,9 +9,9 @@
           </ul>
         </div>
     <% end %>
+
     <div class="field">
       <%= f.label :category_id %>
-      <br>
       <%=
           select(
                   'place',
@@ -24,32 +23,26 @@
 
     <div class="field">
       <%= f.label :name %>
-      <br>
       <%= f.text_field :name %>
     </div>
     <div class="field">
       <%= f.label :latitude %>
-      <br>
       <%= f.text_field :latitude %>
     </div>
     <div class="field">
       <%= f.label :longitude %>
-      <br>
       <%= f.text_field :longitude %>
     </div>
     <div class="field">
       <%= f.label :note %>
-      <br>
       <%= f.text_area :note %>
     </div>
     <div class="field">
       <%= f.label :url %>
-      <br>
       <%= f.text_field :url %>
     </div>
     <div class="field">
       <%= f.label :known %>
-      <br>
       <%= f.check_box :known %>
     </div>
     <div class="actions">

@@ -1,29 +1,37 @@
-<h1>Listing places</h1>
+<h1>Places</h1>
+
+<div id="page_navigation">
+  <div class="left">
+    <%=
+        link_to(
+                '← Back to the map',
+                root_path
+        )
+    %>
+  </div>
+
+  <div class="right">
+    <%=
+        link_to(
+                'New Place',
+                new_place_path
+        )
+    %>
+  </div>
+  <div style="clear: both;"></div>
+</div>
 
 <table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Latitude</th>
-      <th>Longitude</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
   <tbody>
-    <% @places.each do |place| %>
+  <% @places.each do |place| %>
       <tr>
         <td><%= place.name %></td>
-        <td><%= place.latitude %></td>
-        <td><%= place.longitude %></td>
-        <td><%= link_to 'Show', place %></td>
-        <td><%= link_to 'Edit', edit_place_path(place) %></td>
-        <td><%= link_to 'Destroy', place, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td class="action">
+          <%= link_to 'Edit', edit_place_path(place) %>
+          <span class="inline-divider">|</span>
+          <%= link_to 'Destroy', place, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
       </tr>
-    <% end %>
+  <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Place', new_place_path %>

@@ -1,5 +1,15 @@
 <h1>Editing category</h1>
 
-<%= render 'form' %>
+<div id="page_navigation">
+  <div class="left">
+    <%=
+        link_to(
+                '← Back',
+                categories_path
+        )
+    %>
+  </div>
+  <div style="clear: both;"></div>
+</div>
 
-<%= link_to 'Back', categories_path %>
+<%= render 'form' %>
