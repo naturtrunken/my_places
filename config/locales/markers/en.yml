@@ -1,0 +1,19 @@
+en:
+  activerecord:
+    attributes:
+      marker:
+        name: 'Name'
+        icon: 'Icon file'
+    models:
+      marker: 'Marker'
+  markers:
+    controllers:
+      create:
+        success: 'The marker has been created.'
+      update:
+        success: 'The marker has been successfully updated.'
+    views:
+      edit:
+        title: 'Editing marker'
+      new:
+        title: 'New marker'

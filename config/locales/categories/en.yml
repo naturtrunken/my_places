@@ -1,0 +1,19 @@
+en:
+  activerecord:
+    attributes:
+      category:
+        name: 'Name'
+        marker_id: 'Marker'
+    models:
+      category: 'Category'
+  categories:
+    controllers:
+      create:
+        success: 'The category has been created.'
+      update:
+        success: 'The category has been successfully updated.'
+    views:
+      edit:
+        title: 'Editing category'
+      new:
+        title: 'New category'

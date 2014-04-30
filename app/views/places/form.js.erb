@@ -20,7 +20,7 @@ function get_current_position() {
         });
 
     } else {
-        alert("Sorry, can't determine your location.");
+        alert("<%= I18n.t('no_position', :scope => [:places, :views, :form]) %>");
     }
 }
 

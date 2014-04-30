@@ -1,10 +1,10 @@
-<h1>New place</h1>
+<h1><%= I18n.t('title', :scope => [:places, :views, :new]) %></h1>
 
 <div id="page_navigation">
   <div class="left">
     <%=
         link_to(
-                '← Back',
+                I18n.t('back', :scope => [:general]),
                 places_path
         )
     %>

@@ -1,19 +1,19 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
+  <strong><%= I18n.t('name', :scope => [:activerecord, :attributes, :organizer]) %>:</strong>
   <%= @organizer.name %>
 </p>
 
 <p>
-  <strong>Url:</strong>
+  <strong><%= I18n.t('url', :scope => [:activerecord, :attributes, :organizer]) %>:</strong>
   <%= @organizer.url %>
 </p>
 
 <p>
-  <strong>Note:</strong>
+  <strong><%= I18n.t('note', :scope => [:activerecord, :attributes, :organizer]) %>:</strong>
   <%= @organizer.note %>
 </p>
 
-<%= link_to 'Edit', edit_organizer_path(@organizer) %> |
-<%= link_to 'Back', organizers_path %>
+<%= link_to I18n.t('edit', :scope => [:general]), edit_organizer_path(@organizer) %> |
+<%= link_to I18n.t('back', :scope => [:general]), organizers_path %>

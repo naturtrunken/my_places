@@ -38,7 +38,7 @@ class OrganizersController < ApplicationController
 
     respond_to do |format|
       if @organizer.save
-        format.html { redirect_to @organizer, notice: 'Organizer was successfully created.' }
+        format.html { redirect_to @organizer, notice: I18n.t('success', :scope => [:organizers, :controllers, :create]) }
         format.json { render :show, status: :created, location: @organizer }
       else
         format.html { render :new }
@@ -54,7 +54,7 @@ class OrganizersController < ApplicationController
   def update
     respond_to do |format|
       if @organizer.update(organizer_params)
-        format.html { redirect_to @organizer, notice: 'Organizer was successfully updated.' }
+        format.html { redirect_to @organizer, notice: I18n.t('success', :scope => [:organizers, :controllers, :create]) }
         format.json { render :show, status: :ok, location: @organizer }
       else
         format.html { render :edit }

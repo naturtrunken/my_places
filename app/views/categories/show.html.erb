@@ -1,9 +1,9 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
+  <strong><%= I18n.t('name', :scope => [:activerecord, :attributes, :category]) %>:</strong>
   <%= @category.name %>
 </p>
 
-<%= link_to 'Edit', edit_category_path(@category) %> |
-<%= link_to 'Back', categories_path %>
+<%= link_to I18n.t('edit', :scope => [:general]), edit_category_path(@category) %> |
+<%= link_to I18n.t('back', :scope => [:general]), categories_path %>

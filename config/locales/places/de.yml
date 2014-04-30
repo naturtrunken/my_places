@@ -1,0 +1,28 @@
+de:
+  activerecord:
+    attributes:
+      place:
+        name: 'Name'
+        latitude: 'Breitengrad'
+        longitude: 'Längengrad'
+        url: 'URL'
+        note: 'Bemerkung'
+        category_id: 'Kategorie'
+        known: 'Bekannter Ort'
+    models:
+      place: 'Ort'
+      places: 'Orte'
+  places:
+    controllers:
+      create:
+        success: 'Der Ort ist angelegt worden.'
+      update:
+        success: 'Der Ort ist aktualisiert worden.'
+    views:
+      form:
+       current_position: 'Aktuelle Position verwenden'
+       no_position: "Verzeihung, die aktuelle Position konnte nicht ermittelt werden."
+      edit:
+        title: 'Ort bearbeiten'
+      new:
+        title: 'Ort anlegen'

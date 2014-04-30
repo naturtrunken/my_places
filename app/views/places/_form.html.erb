@@ -27,7 +27,7 @@
     <div class="field">
       <%=
           submit_tag(
-                  'Get current position',
+                  I18n.t('current_position', :scope => [:places, :views, :form]),
                   :id => 'current_position_button',
                   :type => 'button'
           )
@@ -54,6 +54,12 @@
       <%= f.check_box :known %>
     </div>
     <div class="actions">
-      <%= f.submit %>
+      <%=
+          f.submit(
+                  (action_name == 'new' or action_name == 'create') ?
+                          I18n.t('create', :scope => [:general]) :
+                          I18n.t('update', :scope => [:general])
+          )
+      %>
     </div>
 <% end %>

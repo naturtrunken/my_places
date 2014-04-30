@@ -1,7 +1,7 @@
 <div data-role="panel" id="navigation">
 
   <div id="categories">
-    <h6>Categories</h6>
+    <h6><%= I18n.t('categories', :scope => [:activerecord, :models]) %></h6>
 
     <ul>
       <% Category.all.each do |category| %>
@@ -20,24 +20,24 @@
   <div class="divider"></div>
 
   <div id="actions">
-    <h6>Settings</h6>
+    <h6><%= I18n.t('settings', :scope => [:navigation]) %></h6>
 
     <ul>
       <li><%=
           link_to(
-                  'Edit places',
+                  I18n.t('edit_places', :scope => [:navigation]),
                   places_path
           )
       %></li>
       <li><%=
           link_to(
-                  'Edit categories',
+                  I18n.t('edit_categories', :scope => [:navigation]),
                   categories_path
           )
       %></li>
       <li><%=
           link_to(
-                  'Edit organizers',
+                  I18n.t('edit_organizers', :scope => [:navigation]),
                   organizers_path
           )
       %></li>

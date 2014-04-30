@@ -1,0 +1,9 @@
+en:
+  general:
+    back: '← Back'
+    back_to_map: '← Back to the map'
+    edit: 'Edit'
+    destroy: 'Destroy'
+    update: 'Update'
+    create: 'Create'
+    are_you_sure: 'Are you sure?'

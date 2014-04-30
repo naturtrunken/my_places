@@ -1,0 +1,20 @@
+de:
+  activerecord:
+    attributes:
+      category:
+        name: 'Name'
+        marker_id: 'Markierung'
+    models:
+      category: 'Kategorie'
+      categories: 'Kategorien'
+  categories:
+    controllers:
+      create:
+        success: 'Die Kategorie ist angelegt worden.'
+      update:
+        success: 'Die Kategorie ist aktualisiert worden.'
+    views:
+      edit:
+        title: 'Kategorie bearbeiten'
+      new:
+        title: 'Kategorie anlegen'
