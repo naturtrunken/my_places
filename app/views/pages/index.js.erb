@@ -78,7 +78,8 @@ function create_marker() {
         <%= place.longitude %>,
         <%= place.category_id %>,
         "<%= place.name %>",
-        "<%= place.known ? I18n.t('general.yes') : I18n.t('general.noo') %>"
+        "<%= place.known ? I18n.t('general.yes') : I18n.t('general.noo') %>",
+        "<%= place.address %>"
     ];
     marker_count++;
     <% end %>
@@ -145,7 +146,8 @@ function redraw_marker() {
         );
         marker[marker_count].bindPopup(
                         '<b>' + marker_data[i][3] + '</b><br/>' +
-                        '<i><%= I18n.t('known', :scope => [:activerecord, :attributes, :place]) %></i>: ' + marker_data[i][4]
+                        '<i><%= I18n.t('known', :scope => [:activerecord, :attributes, :place]) %></i>: ' + marker_data[i][4] + '<br/><br/>' +
+                        marker_data[i][5]
         ).openPopup();
         marker[marker_count].addTo(map);
         marker_count++;
