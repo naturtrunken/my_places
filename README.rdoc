@@ -1,28 +1,40 @@
-== README
+# X
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+X's main purpose is to keep places in mind which you see in your every day life to check them out later.
+You can easily check out the places and define new ones with your mobile device. Because
+you have to host X yourself, it respects your privacy.
 
-Things you may want to cover:
+It's not a "social thing", but an utility which can assist you by your exploration of new cities.
 
-* Ruby version
+## Requirements
 
-* System dependencies
+* Ruby 2.1
+* Rails 4.1
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+(But it is a very simple project and should be running without problems under older versions.
+If you experience some troubles, feel encouraged to open an issue and I will see how I can
+help you.)
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+## Installation
+
+* Fork this repository, eg. <code>git clone https://github.com/naturtrunken/X</code>.
+* Change to the new directory.
+* Install the gems with <code>bundle install</code>.
+* Create the database with <code>rake db:migrate</code>
+
+By default, a SQLite database will be used (stored in the <code>db</code> directory).
+By changing <code>conf/databases.yml</code>, you can also use other databases.
+
+
+## Contributing
+
+* Fork this repository.
+* Create a new branch from the <code>develop</code> branch. (Eg. <code>git checkout develop && git checkout -b my-cool-feature</code>.)
+* Push it and open a pull request.
+
+## Licence
+
+2014 Andreas Marc Klingler (http://www.andreas-klingler.de/),
+released under the MIT license
+

@@ -73,7 +73,13 @@ function initmap() {
 // ---------------------------------------------------------------------------------------
 function create_marker() {
     <% @places.each do |place| %>
-    marker_data[marker_count] = [<%= place.latitude %>, <%= place.longitude %>, <%= place.category_id %>, "<%= place.name %>"];
+    marker_data[marker_count] = [
+        <%= place.latitude %>,
+        <%= place.longitude %>,
+        <%= place.category_id %>,
+        "<%= place.name %>",
+        "<%= place.known ? I18n.t('general.yes') : I18n.t('general.noo') %>"
+    ];
     marker_count++;
     <% end %>
 }
@@ -138,7 +144,8 @@ function redraw_marker() {
                 }
         );
         marker[marker_count].bindPopup(
-                '<b>' + marker_data[i][3] + '</b>'
+                        '<b>' + marker_data[i][3] + '</b><br/>' +
+                        '<i><%= I18n.t('known', :scope => [:activerecord, :attributes, :place]) %></i>: ' + marker_data[i][4]
         ).openPopup();
         marker[marker_count].addTo(map);
         marker_count++;
