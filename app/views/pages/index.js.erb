@@ -73,7 +73,7 @@ function initmap() {
 // ---------------------------------------------------------------------------------------
 function create_marker() {
     <% @places.each do |place| %>
-    marker_data[marker_count] = [<%= place.latitude %>, <%= place.longitude %>, <%= place.category_id %>];
+    marker_data[marker_count] = [<%= place.latitude %>, <%= place.longitude %>, <%= place.category_id %>, "<%= place.name %>"];
     marker_count++;
     <% end %>
 }
@@ -137,6 +137,9 @@ function redraw_marker() {
                     icon: marker_icon[category_marker[marker_data[i][2]]]
                 }
         );
+        marker[marker_count].bindPopup(
+                '<b>' + marker_data[i][3] + '</b>'
+        ).openPopup();
         marker[marker_count].addTo(map);
         marker_count++;
     }
