@@ -1,14 +1,5 @@
 <div data-role="panel" id="navigation">
 
-  <div id="top_navi">
-    <%=
-        link_to(
-                I18n.t('title', :scope => [:places, :views, :new]),
-                new_place_path
-        )
-    %>
-  </div>
-
   <div id="categories">
     <h6><%= I18n.t('categories', :scope => [:activerecord, :models]) %></h6>
 

@@ -10,3 +10,4 @@ en:
     yes: 'Yes'
     noo: 'No'
     save: 'Save'
+    general_error: 'There has an error occurred :-/'
