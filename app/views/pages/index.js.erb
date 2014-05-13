@@ -6,6 +6,7 @@ var marker_icon = [];
 var visible_categories = [];
 var marker_count = 0;
 var category_marker = [];
+var new_marker;
 
 
 $(document).ready(function () {
@@ -41,11 +42,101 @@ $(document).on('pagecreate', '#index', function (e) {
 
         // Add a button
         $('.leaflet-control-zoom').append(
-                '<a href="#navigation" class="navigation-symbol">&#8801;</a>'
+                        '<a href="#navigation" class="navigation-symbol">&#8801;</a>' +
+                        '<a href="#" onclick="create_new_location_marker()" class="navigation-symbol">✪</a>'
         );
+
     }, 3);
 
 });
+
+// Creates a new place at the current location.
+// ---------------------------------------------------------------------------------------
+function create_new_location_marker() {
+
+    // Try to fetch the current location.
+    if (navigator.geolocation) {
+
+        navigator.geolocation.getCurrentPosition(function (position) {
+
+            // Set the map to the new position.
+            map.setView(
+                    new L.LatLng(
+                            position.coords.latitude,
+                            position.coords.longitude
+                    ),
+                    18
+            );
+
+            // Create a temporary marker.
+            new_marker = L.marker(
+                    [position.coords.latitude, position.coords.longitude],
+                    {
+                        draggable: true
+                    }
+            );
+
+            new_marker.bindPopup(
+                            '<input type="text" name="place[name]" id="place[name]" value="" placeholder="<%= I18n.t('new_place_name_placeholder', :scope => [:pages, :views, :index]) %>"/>' +
+                            '<br/><br/>' +
+                            '<input type="hidden" name="place[latitude]" id="place[latitude]" value="' + position.coords.latitude + '" />' +
+                            '<input type="hidden" name="place[longitude]" id="place[longitude]" value="' + position.coords.longitude + '" />' +
+                            '<%= select(
+                                            'place',
+                                            'category_id',
+                                            options_for_select(Category.all.collect { |p| [p.name, p.id] })
+                             ).gsub("\n", '').html_safe %>' +
+                            '<br/><br/>' +
+                            '<input type="button" name="new_place_submit" onclick="create_new_location()" value="<%= I18n.t('save', :scope => [:general]) %>" />'
+            ).openPopup();
+
+            // Add it to the map.
+            new_marker.addTo(map);
+
+        });
+
+    } else {
+        alert("<%= I18n.t('no_position', :scope => [:places, :views, :form]) %>");
+    }
+
+}
+
+
+// Creates the new location via an ajax request.
+// ---------------------------------------------------------------------------------------
+function create_new_location() {
+
+    $.ajax({
+        type: "POST",
+        url: "<%= places_path(:format => 'json') %>",
+        data: {
+            place: {
+                name: document.getElementById("place[name]").value,
+                category_id: document.getElementById("place_category_id").value,
+                latitude: document.getElementById("place[latitude]").value,
+                longitude: document.getElementById("place[longitude]").value
+            }
+        },
+        success: function (data, textStatus, xhr) {
+
+            if (xhr.status == 201) {
+
+                // Remove the temporary marker.
+                map.removeLayer(new_marker);
+
+                alert("<%= I18n.t('place_created', :scope => [:pages, :views, :index]) %>");
+
+            } else {
+                alert("<%= I18n.t('invalid_data', :scope => [:pages, :views, :index]) %>");
+            }
+
+        },
+        error: function (response) {
+            alert("<%= I18n.t('invalid_data', :scope => [:pages, :views, :index]) %>");
+        }
+    });
+
+}
 
 
 // Creates the map.

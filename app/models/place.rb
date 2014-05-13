@@ -3,7 +3,16 @@ class Place < ActiveRecord::Base
 
   before_save :update_address
 
+  # ---------------------------------------------------------------------------------------
+  validates :name,
+            presence: true
+
+  validates :category_id,
+            presence: true
+
+
   # Tries to update the address if the coordinates has changed.
+  # ---------------------------------------------------------------------------------------
   def update_address
 
     # Return immediately if we do not have anything to do.

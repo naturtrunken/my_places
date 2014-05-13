@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   resources :organizers
   resources :categories
-  resources :places
   resources :markers
+  resources :places
 
 end

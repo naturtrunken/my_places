@@ -41,6 +41,28 @@ table {
   border-collapse: collapse;
 }
 
+
+/* ------------------------------------------------------------------------------------ */
+
+input[type="text"],
+input[type="button"],
+select {
+  font-size: 1.3em;
+  width: 100%;
+  min-width: 200px;
+  padding: 4px;
+}
+
+input[type="text"] {
+  border: 1px solid #ddd;
+  width: 90%;
+}
+
+input[type="button"] {
+  background-color: #ddd;
+}
+
+
 /* ------------------------------------------------------------------------------------ */
 /* Leaflet fixes */
 
