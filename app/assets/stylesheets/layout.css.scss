@@ -1,0 +1,81 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+/* ------------------------------------------------------------------------------------ */
+
+.inline-divider {
+  color: #ccc;
+}
+
+/* ------------------------------------------------------------------------------------ */
+
+#page_content {
+  padding: 10px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+h1,h2,h3,h4,h5,h6,li,p,a {
+  font-weight: 300;
+}
+
+h1 {
+  margin-bottom: 0.8em;
+  font-size: 1.6em;
+}
+
+a {
+  text-decoration: none;
+}
+
+table {
+  /* Without this, the tr would not render the border... */
+  border-collapse: collapse;
+}
+
+
+/* ------------------------------------------------------------------------------------ */
+
+input[type="text"],
+input[type="button"],
+select {
+  font-size: 1.3em;
+  width: 100%;
+  min-width: 200px;
+  padding: 4px;
+}
+
+input[type="text"] {
+  border: 1px solid #ddd;
+  width: 90%;
+}
+
+input[type="button"] {
+  background-color: #ddd;
+}
+
+
+/* ------------------------------------------------------------------------------------ */
+/* Leaflet fixes */
+
+.ui-page-theme-a a {
+  font-weight: 300 !important;
+}
+
+.ui-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0 !important;
+}
+

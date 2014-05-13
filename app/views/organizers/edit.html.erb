@@ -1,0 +1,15 @@
+<h1><%= I18n.t('title', :scope => [:organizers, :views, :edit]) %></h1>
+
+<div id="page_navigation">
+  <div class="left">
+    <%=
+        link_to(
+                I18n.t('back', :scope => [:general]),
+                organizers_path
+        )
+    %>
+  </div>
+  <div style="clear: both;"></div>
+</div>
+
+<%= render 'form' %>

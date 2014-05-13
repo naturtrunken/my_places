@@ -1,0 +1,19 @@
+de:
+  activerecord:
+    attributes:
+      marker:
+        name: 'Name'
+        icon: 'Icon-Datei'
+    models:
+      marker: 'Markierung'
+  markers:
+    controllers:
+      create:
+        success: 'Die Markierung ist angelegt worden.'
+      update:
+        success: 'Die Markierung ist aktualisiert worden.'
+    views:
+      edit:
+        title: 'Markierung bearbeiten'
+      new:
+        title: 'Markierung anlegen'

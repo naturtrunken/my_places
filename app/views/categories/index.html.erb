@@ -1,0 +1,43 @@
+<h1><%= I18n.t('categories', :scope => [:activerecord, :models]) %></h1>
+
+<%=
+    render(
+            'shared/page_navigation',
+            :left => link_to(
+                    I18n.t('back_to_map', :scope => [:general]),
+                    root_path
+            ),
+            :right => link_to(
+                    I18n.t('title', :scope => [:categories, :views, :new]),
+                    new_category_path
+            )
+    )
+%>
+
+<table>
+  <tbody>
+  <% @categories.each do |category| %>
+      <tr>
+        <td><%= category.name %></td>
+        <td class="action"><%=
+            link_to(
+                    I18n.t('edit', :scope => [:general]),
+                    edit_category_path(category)
+            )
+        %>
+          <span class="inline-divider">|</span>
+          <%=
+              link_to(
+                      I18n.t('destroy', :scope => [:general]),
+                      category,
+                      method: :delete,
+                      data: {
+                              confirm: I18n.t('are_you_sure', :scope => [:general])
+                      }
+              )
+          %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+

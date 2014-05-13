@@ -1,0 +1,39 @@
+<%= form_for(@category) do |f| %>
+    <% if @category.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@category.errors.count, "error") %> prohibited this category from being saved:</h2>
+          <ul>
+            <% @category.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+    </div>
+    <div class="field">
+      <%= f.label I18n.t('marker', :scope => [:activerecord, :models]) %>
+      <td><%=
+          select(
+                  "category",
+                  "marker_id",
+                  options_for_select(
+                          Marker.all.collect { |p| [p.name, p.id] },
+                          @category.marker_id
+                  )
+          )
+      %></td>
+    </div>
+    <div class="actions">
+      <%=
+          f.submit(
+                  (action_name == 'new' or action_name == 'create') ?
+                          I18n.t('create', :scope => [:general]) :
+                          I18n.t('update', :scope => [:general])
+          )
+      %>
+    </div>
+<% end %>

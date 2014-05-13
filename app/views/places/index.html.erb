@@ -1,0 +1,44 @@
+<h1><%= I18n.t('places', :scope => [:activerecord, :models]) %></h1>
+
+<%=
+    render(
+            'shared/page_navigation',
+            :left => link_to(
+                    I18n.t('back_to_map', :scope => [:general]),
+                    root_path
+            ),
+            :right => link_to(
+                    I18n.t('title', :scope => [:places, :views, :new]),
+                    new_place_path
+            )
+    )
+%>
+
+<table>
+  <tbody>
+  <% @places.each do |place| %>
+      <tr>
+        <td><%= place.name %></td>
+        <td class="action">
+          <%=
+              link_to(
+                      I18n.t('edit', :scope => [:general]),
+                      edit_place_path(place)
+              )
+          %>
+          <span class="inline-divider">|</span>
+          <%=
+              link_to(
+                      I18n.t('destroy', :scope => [:general]),
+                      place,
+                      method: :delete,
+                      data: {
+                              confirm: I18n.t('are_you_sure', :scope => [:general])
+                      }
+              )
+          %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

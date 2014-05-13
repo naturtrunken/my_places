@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong><%= I18n.t('name', :scope => [:activerecord, :attributes, :places]) %>:</strong>
+  <%= @place.name %>
+</p>
+
+<p>
+  <strong><%= I18n.t('latitude', :scope => [:activerecord, :attributes, :places]) %>:</strong>
+  <%= @place.latitude %>
+</p>
+
+<p>
+  <strong><%= I18n.t('longitude', :scope => [:activerecord, :attributes, :places]) %>:</strong>
+  <%= @place.longitude %>
+</p>
+
+<%= link_to I18n.t('edit', :scope => [:general]), edit_place_path(@place) %> |
+<%= link_to I18n.t('back', :scope => [:general]), places_path %>

@@ -1,0 +1,7 @@
+en:
+  pages:
+    views:
+      index:
+        new_place_name_placeholder: 'Enter the name of the place'
+        invalid_data: 'Please fill out all fields.'
+        place_created: 'The places was created.'

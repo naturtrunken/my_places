@@ -1,0 +1,27 @@
+en:
+  activerecord:
+    attributes:
+      place:
+        name: 'Name'
+        latitude: 'Latitude'
+        longitude: 'Longitude'
+        url: 'URL'
+        note: 'Note'
+        category_id: 'Category'
+        known: 'Known place'
+    models:
+      place: 'Place'
+  places:
+    controllers:
+      create:
+        success: 'The place has been created.'
+      update:
+        success: 'The place has been successfully updated.'
+    views:
+      form:
+        current_position: 'Use current position'
+        no_position: "Sorry, can't determine your location."
+      edit:
+        title: 'Editing place'
+      new:
+        title: 'New place'

@@ -1,0 +1,13 @@
+de:
+  general:
+    back: '← Zurück'
+    back_to_map: '← Zurück zu der Karte'
+    edit: 'Bearbeiten'
+    destroy: 'Löschen'
+    update: 'Aktualisieren'
+    create: 'Anlegen'
+    are_you_sure: 'Sind Sie sich sicher?'
+    yes: 'Ja'
+    noo: 'Nein'
+    save: 'Speichern'
+    general_error: 'Es ist ein Fehler aufgetreten :-/'

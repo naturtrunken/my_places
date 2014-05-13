@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong><%= I18n.t('name', :scope => [:activerecord, :attributes, :marker]) %>:</strong>
+  <%= @marker.name %>
+</p>
+
+<p>
+  <strong><%= I18n.t('icon', :scope => [:activerecord, :attributes, :marker]) %>:</strong>
+  <%= @marker.icon %>
+</p>
+
+<%= link_to I18n.t('edit', :scope => [:general]), edit_marker_path(@marker) %> |
+<%= link_to I18n.t('back', :scope => [:general]), markers_path %>

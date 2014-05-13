@@ -1,0 +1,21 @@
+en:
+  activerecord:
+    attributes:
+      organizer:
+        name: 'Name'
+        url: 'URL'
+        note: 'Note'
+    models:
+      organizer: 'Organizer'
+      organizers: 'Organizers'
+  organizers:
+    controllers:
+      create:
+        success: 'The organizer has been created.'
+      update:
+        success: 'The organizer has been successfully updated.'
+    views:
+      edit:
+        title: 'Editing organizer'
+      new:
+        title: 'New organizer'

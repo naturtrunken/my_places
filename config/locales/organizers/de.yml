@@ -1,0 +1,21 @@
+de:
+  activerecord:
+    attributes:
+      organizer:
+        name: 'Name'
+        url: 'URL'
+        note: 'Bemerkung'
+    models:
+      organizer: 'Veranstalter'
+      organizers: 'Veranstalter'
+  organizers:
+    controllers:
+      create:
+        success: 'Der Veranstalter ist angelegt worden.'
+      update:
+        success: 'Der Veranstalter ist aktualisiert worden.'
+    views:
+      edit:
+        title: 'Veranstalter bearbeiten'
+      new:
+        title: 'Veranstalter anlegen'
