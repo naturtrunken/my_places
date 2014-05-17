@@ -6,3 +6,4 @@ en:
         invalid_data: 'Please fill out all fields.'
         place_created: 'The places was created.'
         delete_marker: 'Delete marker'
+        marker_adding_disables: 'There is already a new marker there. Please save or delete it first.'

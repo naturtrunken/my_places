@@ -75,6 +75,7 @@ function create_marker() {
 
     // Do nothing, if the adding of new markers is disabled.
     if (!(marker_adding_enabled)) {
+        alert("<%= I18n.t('marker_adding_disables', :scope => [:pages, :views, :index]) %>");
         return;
     }
 
@@ -117,6 +118,7 @@ function create_marker_here() {
 
     // Do nothing, if the adding of new markers is disabled.
     if (!(marker_adding_enabled)) {
+        alert("<%= I18n.t('marker_adding_disables', :scope => [:pages, :views, :index]) %>");
         return;
     }
 
@@ -217,6 +219,9 @@ function create_new_location() {
 
                 // Remove the temporary marker.
                 map.removeLayer(new_marker);
+
+                // Enable the adding of new markers again.
+                set_marker_adding_enabled(true);
 
                 alert("<%= I18n.t('place_created', :scope => [:pages, :views, :index]) %>");
 
