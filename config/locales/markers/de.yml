@@ -5,7 +5,9 @@ de:
         name: 'Name'
         icon: 'Icon-Datei'
     models:
-      marker: 'Markierung'
+      marker:
+        one: 'Markierung'
+        other: 'Markierungen'
   markers:
     controllers:
       create:

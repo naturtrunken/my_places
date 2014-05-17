@@ -5,7 +5,9 @@ en:
         name: 'Name'
         icon: 'Icon file'
     models:
-      marker: 'Marker'
+      marker:
+        one: 'Marker'
+        other: 'Markers'
   markers:
     controllers:
       create:

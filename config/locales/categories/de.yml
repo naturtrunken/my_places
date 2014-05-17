@@ -5,8 +5,9 @@ de:
         name: 'Name'
         marker_id: 'Markierung'
     models:
-      category: 'Kategorie'
-      categories: 'Kategorien'
+      category:
+        one: 'Kategorie'
+        other: 'Kategorien'
   categories:
     controllers:
       create:

@@ -5,7 +5,9 @@ en:
         name: 'Name'
         marker_id: 'Marker'
     models:
-      category: 'Category'
+      category:
+        one: 'Category'
+        other: 'Categories'
   categories:
     controllers:
       create:
