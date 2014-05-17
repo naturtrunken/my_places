@@ -10,7 +10,9 @@ en:
         category_id: 'Category'
         known: 'Known place'
     models:
-      place: 'Place'
+      place:
+        one: 'Place'
+        other: 'Places'
   places:
     controllers:
       create:

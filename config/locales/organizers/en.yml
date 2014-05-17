@@ -6,8 +6,9 @@ en:
         url: 'URL'
         note: 'Note'
     models:
-      organizer: 'Organizer'
-      organizers: 'Organizers'
+      organizer:
+        one: 'Organizer'
+        other: 'Organizers'
   organizers:
     controllers:
       create:

@@ -10,8 +10,9 @@ de:
         category_id: 'Kategorie'
         known: 'Bekannter Ort'
     models:
-      place: 'Ort'
-      places: 'Orte'
+      place:
+        one: 'Ort'
+        other: 'Orte'
   places:
     controllers:
       create:

@@ -1,12 +1,18 @@
 Rails.application.routes.draw do
 
-  root 'pages#index'
-  get '/index' => 'pages#index',
-      :as => 'index'
+  root :to => 'pages#index'
+  get '/:locale' => 'pages#index'
 
-  resources :organizers
-  resources :categories
-  resources :markers
-  resources :places
+  scope '/(:locale)', :locale => /en|de/ do
+
+    get 'index' => 'pages#index',
+        :as => :index
+
+    resources :organizers
+    resources :categories
+    resources :markers
+    resources :places
+
+  end
 
 end

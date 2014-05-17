@@ -6,8 +6,9 @@ de:
         url: 'URL'
         note: 'Bemerkung'
     models:
-      organizer: 'Veranstalter'
-      organizers: 'Veranstalter'
+      organizer:
+        one: 'Veranstalter'
+        other: 'Veranstalter'
   organizers:
     controllers:
       create:

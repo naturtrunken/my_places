@@ -1,7 +1,7 @@
 <div data-role="panel" id="navigation">
 
   <div id="categories">
-    <h6><%= I18n.t('categories', :scope => [:activerecord, :models]) %></h6>
+    <h6><%= I18n.t('other', :scope => [:activerecord, :models, :category]) %></h6>
 
     <ul>
       <% Category.all.each do |category| %>
