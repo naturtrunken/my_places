@@ -40,6 +40,8 @@ Installation
 * Create the database with <code>rake db:migrate</code>.
 * Start the app with <code>rails s</code>.
 * Point your browser to <code>localhost:3000</code>.
+* If you want, you can change the default map view by changing the coordinates and the zoom
+  level at the top of the file <code>app/views/pages/index.js.erb</code>.
 
 By default, a SQLite database will be used (stored in the <code>db</code> directory).
 By changing <code>conf/databases.yml</code>, you can also use other databases.

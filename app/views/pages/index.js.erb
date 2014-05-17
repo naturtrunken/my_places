@@ -1,4 +1,11 @@
-// Global variables
+// Configuration variables
+// ---------------------------------------------------------------------------------------
+var default_view_latitude = 52.518611;
+var default_view_longitude = 13.408056;
+var default_view_zoom_level = 11;
+
+
+// Internal variables
 // ---------------------------------------------------------------------------------------
 var map;
 var marker = [];
@@ -276,7 +283,11 @@ function initmap() {
     });
     map.addLayer(osm);
 
-    map.setView(new L.LatLng(52.518611, 13.408056), 11);
+    map.setView(
+            new L.LatLng(default_view_latitude, default_view_longitude),
+            default_view_zoom_level
+    );
+
 }
 
 
