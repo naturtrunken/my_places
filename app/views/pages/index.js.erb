@@ -7,6 +7,7 @@ var visible_categories = [];
 var marker_count = 0;
 var category_marker = [];
 var new_marker;
+var marker_adding_enabled = true;
 
 
 $(document).ready(function () {
@@ -43,16 +44,63 @@ $(document).on('pagecreate', '#index', function (e) {
         // Add a button
         $('.leaflet-control-zoom').append(
                         '<a href="#navigation" class="navigation-symbol">&#8801;</a>' +
-                        '<a href="#" onclick="create_new_location_marker()" class="navigation-symbol">✪</a>'
+                        '<a href="#" id="create_new_location_marker_here" onclick="create_new_location_marker_here()" class="navigation-symbol">✪</a>' +
+                        '<a href="#" id="create_new_location_marker" onclick="create_new_location_marker()" class="navigation-symbol">H</a>'
         );
 
     }, 3);
 
 });
 
-// Creates a new place at the current location.
+// Creates a new place at the center of the current map view.
 // ---------------------------------------------------------------------------------------
 function create_new_location_marker() {
+
+    // Do nothing, if the adding of new markers is disabled.
+    if (!(marker_adding_enabled)) {
+        return;
+    }
+
+    // Get the current center of the map.
+    current_position = map.getCenter();
+
+    // Create a new marker there.
+    create_new_location_at(current_position.lat, current_position.lng);
+
+}
+
+// Activates or deactivates the
+// ---------------------------------------------------------------------------------------
+function set_marker_adding_enabled(b) {
+
+    // If the new state is the old state, do nothing here.
+    if (marker_adding_enabled == b) {
+        return;
+    }
+
+    // Set the global state.
+    marker_adding_enabled = b;
+
+    // Enabled/disable the buttons
+    if (marker_adding_enabled) {
+        $('#create_new_location_marker_here').removeClass('marker_adding_disabled');
+        $('#create_new_location_marker').removeClass('marker_adding_disabled');
+    } else {
+        $('#create_new_location_marker_here').addClass('marker_adding_disabled');
+        $('#create_new_location_marker').addClass('marker_adding_disabled');
+    }
+
+}
+
+
+// Creates a new place at the current location.
+// ---------------------------------------------------------------------------------------
+function create_new_location_marker_here() {
+
+    // Do nothing, if the adding of new markers is disabled.
+    if (!(marker_adding_enabled)) {
+        return;
+    }
 
     // Try to fetch the current location.
     if (navigator.geolocation) {
@@ -68,30 +116,7 @@ function create_new_location_marker() {
                     18
             );
 
-            // Create a temporary marker.
-            new_marker = L.marker(
-                    [position.coords.latitude, position.coords.longitude],
-                    {
-                        draggable: true
-                    }
-            );
-
-            new_marker.bindPopup(
-                            '<input type="text" name="place[name]" id="place[name]" value="" placeholder="<%= I18n.t('new_place_name_placeholder', :scope => [:pages, :views, :index]) %>"/>' +
-                            '<br/><br/>' +
-                            '<input type="hidden" name="place[latitude]" id="place[latitude]" value="' + position.coords.latitude + '" />' +
-                            '<input type="hidden" name="place[longitude]" id="place[longitude]" value="' + position.coords.longitude + '" />' +
-                            '<%= select(
-                                            'place',
-                                            'category_id',
-                                            options_for_select(Category.all.collect { |p| [p.name, p.id] })
-                             ).gsub("\n", '').html_safe %>' +
-                            '<br/><br/>' +
-                            '<input type="button" name="new_place_submit" onclick="create_new_location()" value="<%= I18n.t('save', :scope => [:general]) %>" />'
-            ).openPopup();
-
-            // Add it to the map.
-            new_marker.addTo(map);
+            create_new_location_at(position.coords.latitude, position.coords.longitude);
 
         });
 
@@ -99,6 +124,55 @@ function create_new_location_marker() {
         alert("<%= I18n.t('no_position', :scope => [:places, :views, :form]) %>");
     }
 
+}
+
+
+// Creates a new place at the given location.
+// ---------------------------------------------------------------------------------------
+function create_new_location_at(latitude, longitude) {
+
+    // Create a temporary marker.
+    new_marker = L.marker(
+            [latitude, longitude],
+            {
+                draggable: true
+            }
+    );
+
+    new_marker.bindPopup(
+                    '<input type="text" name="place[name]" id="place[name]" value="" placeholder="<%= I18n.t('new_place_name_placeholder', :scope => [:pages, :views, :index]) %>"/>' +
+                    '<br/><br/>' +
+                    '<input type="hidden" name="place[latitude]" id="place[latitude]" value="' + latitude + '" />' +
+                    '<input type="hidden" name="place[longitude]" id="place[longitude]" value="' + longitude + '" />' +
+                    '<%= select(
+                                            'place',
+                                            'category_id',
+                                            options_for_select(Category.all.collect { |p| [p.name, p.id] })
+                             ).gsub("\n", '').html_safe %>' +
+                    '<br/><br/>' +
+                    '<input type="button" name="new_place_submit" onclick="create_new_location()" value="<%= I18n.t('save', :scope => [:general]) %>" />' +
+                    '<br/><br/>' +
+                    '<a href="#" onclick="delete_marker();"><%= I18n.t('delete_marker', :scope => [:pages, :views, :index]) %></a>'
+    ).openPopup();
+
+    // Add it to the map.
+    new_marker.addTo(map);
+
+    // Disable the adding of new markers.
+    set_marker_adding_enabled(false);
+
+}
+
+
+// Removes the new marker from the map.
+// ---------------------------------------------------------------------------------------
+function delete_marker() {
+
+    // Remove the marker.
+    map.removeLayer(new_marker);
+
+    // Enable the adding of new markers again.
+    set_marker_adding_enabled(true);
 }
 
 

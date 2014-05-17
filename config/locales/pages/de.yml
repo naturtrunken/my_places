@@ -5,3 +5,4 @@ de:
         new_place_name_placeholder: 'Ortsname eingeben'
         invalid_data: 'Bitte fülle alle Felder aus.'
         place_created: 'Der Ort ist angelegt worden.'
+        delete_marker: 'Marker löschen'
