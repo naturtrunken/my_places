@@ -2,6 +2,7 @@ my_places
 =========
 
 Mobile-friendly, self-hosted Ruby on Rails app for discovering and organizing places.
+Live demo: http://my-places.naturtrunken.de/
 
 The main purpose is to keep places in mind which you see in your every days
 life to check them out later. If you see an interesting place, you can easily
