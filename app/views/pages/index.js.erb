@@ -1,4 +1,5 @@
-// Variables for the map
+// Global variables
+// ---------------------------------------------------------------------------------------
 var map;
 var marker = [];
 var marker_data = [];
@@ -10,6 +11,7 @@ var new_marker;
 var marker_adding_enabled = true;
 
 
+// ---------------------------------------------------------------------------------------
 $(document).ready(function () {
 
     // Bind the handling functions to the navigation links.
@@ -26,35 +28,43 @@ $(document).ready(function () {
     create_marker_objects();
 });
 
+
+// ---------------------------------------------------------------------------------------
 $(document).on('pagecreate', '#index', function (e) {
 
     // Load the map
     initmap();
 
     // Create all marker.
-    create_marker();
+    create_saved_marker();
 
     // Reload the map tiles after the (jquery mobile) initialisation again.
-    setTimeout(function () {
-        map.invalidateSize();
-    }, 1);
+    setTimeout(
+            function () {
+                map.invalidateSize();
+            },
+            1
+    );
 
-    setTimeout(function () {
+    // Add the special buttons to the leaflet control bars a few seconds after the pages initialization.
+    setTimeout(
+            function () {
+                $('.leaflet-control-zoom').append(
+                                '<a href="#navigation" class="navigation-symbol">&#8801;</a>' +
+                                '<a href="#" id="create_new_location_marker_here" onclick="create_marker_here()" class="navigation-symbol">✪</a>' +
+                                '<a href="#" id="create_new_location_marker" onclick="create_marker()" class="navigation-symbol">H</a>'
+                );
 
-        // Add a button
-        $('.leaflet-control-zoom').append(
-                        '<a href="#navigation" class="navigation-symbol">&#8801;</a>' +
-                        '<a href="#" id="create_new_location_marker_here" onclick="create_new_location_marker_here()" class="navigation-symbol">✪</a>' +
-                        '<a href="#" id="create_new_location_marker" onclick="create_new_location_marker()" class="navigation-symbol">H</a>'
-        );
-
-    }, 3);
+            },
+            3
+    );
 
 });
 
+
 // Creates a new place at the center of the current map view.
 // ---------------------------------------------------------------------------------------
-function create_new_location_marker() {
+function create_marker() {
 
     // Do nothing, if the adding of new markers is disabled.
     if (!(marker_adding_enabled)) {
@@ -69,16 +79,17 @@ function create_new_location_marker() {
 
 }
 
-// Activates or deactivates the
+
+// Activates or deactivates the buttons for adding new markers.
 // ---------------------------------------------------------------------------------------
 function set_marker_adding_enabled(b) {
 
-    // If the new state is the old state, do nothing here.
+    // If the new status is the old status, do nothing here.
     if (marker_adding_enabled == b) {
         return;
     }
 
-    // Set the global state.
+    // Set the global status.
     marker_adding_enabled = b;
 
     // Enabled/disable the buttons
@@ -95,7 +106,7 @@ function set_marker_adding_enabled(b) {
 
 // Creates a new place at the current location.
 // ---------------------------------------------------------------------------------------
-function create_new_location_marker_here() {
+function create_marker_here() {
 
     // Do nothing, if the adding of new markers is disabled.
     if (!(marker_adding_enabled)) {
@@ -144,11 +155,13 @@ function create_new_location_at(latitude, longitude) {
                     '<br/><br/>' +
                     '<input type="hidden" name="place[latitude]" id="place[latitude]" value="' + latitude + '" />' +
                     '<input type="hidden" name="place[longitude]" id="place[longitude]" value="' + longitude + '" />' +
-                    '<%= select(
-                                            'place',
-                                            'category_id',
-                                            options_for_select(Category.all.collect { |p| [p.name, p.id] })
-                             ).gsub("\n", '').html_safe %>' +
+                    '<%=
+                        select(
+                            'place',
+                            'category_id',
+                            options_for_select(Category.all.collect { |p| [p.name, p.id] })
+                        ).gsub("\n", '').html_safe
+                    %>' +
                     '<br/><br/>' +
                     '<input type="button" name="new_place_submit" onclick="create_new_location()" value="<%= I18n.t('save', :scope => [:general]) %>" />' +
                     '<br/><br/>' +
@@ -250,7 +263,7 @@ function delete_location(place_id, marker_id) {
 // ---------------------------------------------------------------------------------------
 function initmap() {
 
-    // Create the map
+    // Create the map.
     map = new L.Map('map');
 
     // Create the OpenStreetMap and Leaflet note.
@@ -269,7 +282,7 @@ function initmap() {
 
 // Create objects for all markers.
 // ---------------------------------------------------------------------------------------
-function create_marker() {
+function create_saved_marker() {
     <% @places.each do |place| %>
     marker_data[marker_count] = [
         <%= place.latitude %>,
