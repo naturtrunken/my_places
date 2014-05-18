@@ -75,7 +75,7 @@ function create_marker() {
 
     // Do nothing, if the adding of new markers is disabled.
     if (!(marker_adding_enabled)) {
-        alert("<%= I18n.t('marker_adding_disables', :scope => [:pages, :views, :index]) %>");
+        alert("<%= I18n.t('marker_adding_disabled', :scope => [:pages, :views, :index]) %>");
         return;
     }
 
@@ -118,7 +118,7 @@ function create_marker_here() {
 
     // Do nothing, if the adding of new markers is disabled.
     if (!(marker_adding_enabled)) {
-        alert("<%= I18n.t('marker_adding_disables', :scope => [:pages, :views, :index]) %>");
+        alert("<%= I18n.t('marker_adding_disabled', :scope => [:pages, :views, :index]) %>");
         return;
     }
 
@@ -160,8 +160,9 @@ function create_new_location_at(latitude, longitude) {
     );
 
     new_marker.bindPopup(
-                    '<input type="text" name="place[name]" id="place[name]" value="" placeholder="<%= I18n.t('new_place_name_placeholder', :scope => [:pages, :views, :index]) %>"/>' +
-                    '<br/><br/>' +
+                    '<h1><%= I18n.t('title', :scope => [:pages, :views, :index, :popup, :new]) %></h1>' +
+                    '<input type="text" name="place[name]" id="place[name]" value="" placeholder="<%= I18n.t('name', :scope => [:activerecord, :attributes, :place]) %>"/>' +
+                    '<textarea name="place[note]" id="place[note]" placeholder="<%= I18n.t('note', :scope => [:activerecord, :attributes, :place]) %>"/></textarea>' +
                     '<input type="hidden" name="place[latitude]" id="place[latitude]" value="' + latitude + '" />' +
                     '<input type="hidden" name="place[longitude]" id="place[longitude]" value="' + longitude + '" />' +
                     '<%=
@@ -171,10 +172,9 @@ function create_new_location_at(latitude, longitude) {
                             options_for_select(Category.all.collect { |p| [p.name, p.id] })
                         ).gsub("\n", '').html_safe
                     %>' +
-                    '<br/><br/>' +
-                    '<input type="button" name="new_place_submit" onclick="create_new_location()" value="<%= I18n.t('save', :scope => [:general]) %>" />' +
-                    '<br/><br/>' +
-                    '<a href="#" onclick="delete_marker();"><%= I18n.t('delete_marker', :scope => [:pages, :views, :index]) %></a>'
+                    '<input type="button" name="delete_marker" id="delete_marker" onclick="delete_marker()" value="<%= I18n.t('delete_marker', :scope => [:pages, :views, :index]) %>" />' +
+                    '<input type="button" name="new_place_submit" id="new_place_submit" onclick="create_new_location()" value="<%= I18n.t('create_place', :scope => [:pages, :views, :index]) %>" />' +
+                            '<div style="clear: both;"></div>'
     ).openPopup();
 
     // Add it to the map.
@@ -208,6 +208,7 @@ function create_new_location() {
         data: {
             place: {
                 name: document.getElementById("place[name]").value,
+                note: document.getElementById("place[note]").value,
                 category_id: document.getElementById("place_category_id").value,
                 latitude: document.getElementById("place[latitude]").value,
                 longitude: document.getElementById("place[longitude]").value

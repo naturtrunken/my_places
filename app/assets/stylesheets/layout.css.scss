@@ -46,20 +46,37 @@ table {
 
 input[type="text"],
 input[type="button"],
+textarea,
 select {
   font-size: 1.3em;
-  width: 100%;
-  min-width: 200px;
   padding: 4px;
+  margin-bottom: 0.5em;
 }
 
-input[type="text"] {
-  border: 1px solid #ddd;
-  width: 90%;
+input[type="text"],
+textarea,
+select {
+  width: 100%;
+  border: 1px solid #ccc;
 }
 
 input[type="button"] {
-  background-color: #ddd;
+  color: #fff;
+}
+
+#delete_marker,
+#new_place_submit {
+  width: 110px;
+}
+
+#delete_marker {
+  float: left;
+  background-color: #ee0000;
+}
+
+#new_place_submit {
+  float: right;
+  background-color: #00bb00;
 }
 
 
@@ -82,4 +99,13 @@ input[type="button"] {
 
 .marker_adding_disabled {
   color: #cc0000 !important;
+}
+
+.leaflet-popup-content > h1 {
+  font-size: 1.3em;
+  margin: 0 0 0.7em 0;
+}
+
+.leaflet-popup-pane {
+  width: 300px;
 }

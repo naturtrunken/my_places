@@ -5,5 +5,9 @@ en:
         new_place_name_placeholder: 'Enter the name of the place'
         invalid_data: 'Please fill out all fields.'
         place_created: 'The places was created.'
-        delete_marker: 'Delete marker'
-        marker_adding_disables: 'There is already a new marker there. Please save or delete it first.'
+        delete_marker: 'Delete'
+        marker_adding_disabled: 'There is already a new marker there. Please save or delete it first.'
+        create_place: 'Create'
+        popup:
+          new:
+            title: 'Create a new place'
