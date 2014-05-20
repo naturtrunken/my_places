@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  before_action :set_category, only: [:show, :edit, :update, :destroy]
+  before_action :set_category, only: [:show, :edit, :update, :destroy, :places]
 
   # GET /categories
   # GET /categories.json
@@ -72,6 +72,32 @@ class CategoriesController < ApplicationController
       format.html { redirect_to categories_url }
       format.json { head :no_content }
     end
+  end
+
+  # GET /category/:id/places.json
+  # ---------------------------------------------------------------------------------------
+  def places
+
+    @category_places = Place.where(
+        :category_id => @category.id
+    )
+
+    render status: 200, json: {
+        :count => @category_places.count,
+        :places => @category_places.map {
+            |place|
+          {
+              :id => place.id,
+              :name => place.name,
+              :latitude => place.latitude,
+              :longitude => place.longitude,
+              :note => place.note,
+              :url => place.url,
+              :known => place.known,
+              :address => place.address
+          }
+        }
+    }
   end
 
 

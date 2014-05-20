@@ -22,6 +22,8 @@ gem 'rails_exception_handler'
 # DB
 gem 'sqlite3'
 
+gem 'httparty'
+
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -54,6 +56,10 @@ group :test do
   gem 'cucumber-rails', :require => false
 #  gem 'capybara'
 #  gem 'launchy'
+
+  # Factory for creating testing object
+  gem 'factory_girl_rails'
+
 
 # Vacuum cleaner for the test database.
   gem 'database_cleaner'
