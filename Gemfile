@@ -60,8 +60,7 @@ group :test do
   # Factory for creating testing object
   gem 'factory_girl_rails'
 
-
-# Vacuum cleaner for the test database.
+  # Vacuum cleaner for the test database.
   gem 'database_cleaner'
 end
 

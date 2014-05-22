@@ -4,16 +4,7 @@
     <h6><%= I18n.t('other', :scope => [:activerecord, :models, :category]) %></h6>
 
     <ul>
-      <% Category.all.each do |category| %>
-          <li id="category-<%= category.id.to_s %>"><%=
-              link_to(
-                      category.name,
-                      '#',
-                      :class => 'category_selection_link',
-                      'data-category_id' => category.id.to_s
-              )
-          %></li>
-      <% end %>
+      <li>ff</li>
     </ul>
   </div>
 

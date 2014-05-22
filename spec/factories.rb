@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   factory :category do
-    sequence(:name) { |n| 'Marker ' + n.to_s }
+    sequence(:name) { |n| 'Category ' + n.to_s }
   end
 
   factory :place do
