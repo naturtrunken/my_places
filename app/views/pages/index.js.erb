@@ -21,19 +21,63 @@ var marker_adding_enabled = true;
 // ---------------------------------------------------------------------------------------
 $(document).ready(function () {
 
-    // Bind the handling functions to the navigation links.
-    $(".category_selection_link").click(function () {
-        toggle_category($(this));
-        redraw_marker();
-        return false;
-    });
-
     // Load the markers of the categories.
     create_category_marker();
 
     // Create the markers.
     create_marker_objects();
+
+    // Load the categories.
+    load_categories();
 });
+
+
+// Loads the categories from the server and adds the items for it to the navigation menu.
+// ---------------------------------------------------------------------------------------
+function load_categories() {
+
+    $.ajax({
+        type: "GET",
+        url: "<%= categories_path(:format => 'json') %>",
+        data: {},
+        success: function (data, textStatus, xhr) {
+
+            if (xhr.status == 200) {
+
+                // Initialize the categories list.
+                $('#categories_wrapper').html('<ul id="categories"></ul>');
+
+                // Iterate through the json response and create the list in the menu.
+                for (var i in data) {
+                    $('#categories').append(
+                                    '<li id="category-' + data[i].id + '">' +
+                                    '<a href="#" class="category_selection_link" data-category_id="' + data[i].id + '">' +
+                                    data[i].name +
+                                    '</a>' +
+                                    '</li>'
+                    );
+                }
+
+                // Bind the handling functions to the navigation links.
+                $(".category_selection_link").click(function () {
+                    toggle_category($(this));
+                    redraw_marker();
+                    return false;
+                });
+
+
+            } else {
+                alert("<%= I18n.t('invalid_data', :scope => [:pages, :views, :index]) %>");
+            }
+
+        },
+        error: function (response) {
+            alert("<%= I18n.t('invalid_data', :scope => [:pages, :views, :index]) %>");
+        }
+    });
+
+}
+
 
 
 // ---------------------------------------------------------------------------------------
@@ -174,7 +218,7 @@ function create_new_location_at(latitude, longitude) {
                     %>' +
                     '<input type="button" name="delete_marker" id="delete_marker" onclick="delete_marker()" value="<%= I18n.t('delete_marker', :scope => [:pages, :views, :index]) %>" />' +
                     '<input type="button" name="new_place_submit" id="new_place_submit" onclick="create_new_location()" value="<%= I18n.t('create_place', :scope => [:pages, :views, :index]) %>" />' +
-                            '<div style="clear: both;"></div>'
+                    '<div style="clear: both;"></div>'
     ).openPopup();
 
     // Add it to the map.
