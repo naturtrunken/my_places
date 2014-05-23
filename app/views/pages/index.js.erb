@@ -16,6 +16,7 @@ var marker_count = 0;
 var category_marker = [];
 var new_marker;
 var marker_adding_enabled = true;
+var open_navigation_page = '';
 
 
 // ---------------------------------------------------------------------------------------
@@ -29,7 +30,67 @@ $(document).ready(function () {
 
     // Load the categories.
     load_categories();
+
+    // Sets the links for the setting links.
+    define_setting_links();
 });
+
+
+// Binds the settings links to their actions.
+// ---------------------------------------------------------------------------------------
+function define_setting_links() {
+
+    $('#action-add_category').click(function () {
+        new_category();
+        return false;
+    });
+
+    // Bind the back buttons of the navigation views.
+    $('.action-close_navigation_page').click(function () {
+        close_navigation_page();
+        return false;
+    });
+
+
+}
+
+
+// Opens a popup for creating a new category.
+// ---------------------------------------------------------------------------------------
+function new_category() {
+
+    show_navigation_view('#navigation-new_category');
+
+}
+
+
+// Shows a navigation page.
+// ---------------------------------------------------------------------------------------
+function show_navigation_view(element_id) {
+
+    // Hide the main navigation menu.
+    $('#navigation-main').addClass('navigation_hidden').removeClass('navigation_visible')
+
+    // Show the given element.
+    $(element_id).removeClass('navigation_hidden').addClass('navigation_visible');
+
+    // Save the name of the element. We need this information later for hiding it.
+    open_navigation_page = element_id;
+
+}
+
+
+// Closes a navigation page.
+// ---------------------------------------------------------------------------------------
+function close_navigation_page() {
+
+    // Shows the main navigation menu.
+    $('#navigation-main').removeClass('navigation_hidden').addClass('navigation_visible')
+
+    // Hide all elements which are currently visible.
+    $(open_navigation_page).addClass('navigation_hidden').removeClass('navigation_visible');
+
+}
 
 
 // Loads the categories from the server and adds the items for it to the navigation menu.

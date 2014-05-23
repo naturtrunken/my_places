@@ -1,34 +1,5 @@
 <div data-role="panel" id="navigation">
-
-  <h6><%= I18n.t('other', :scope => [:activerecord, :models, :category]) %></h6>
-  <div id="categories_wrapper"></div>
-
-  <div class="divider"></div>
-
-  <div id="actions">
-    <h6><%= I18n.t('settings', :scope => [:navigation]) %></h6>
-
-    <ul>
-      <li><%=
-          link_to(
-                  I18n.t('edit_places', :scope => [:navigation]),
-                  places_path
-          )
-      %></li>
-      <li><%=
-          link_to(
-                  I18n.t('edit_categories', :scope => [:navigation]),
-                  categories_path
-          )
-      %></li>
-      <li><%=
-          link_to(
-                  I18n.t('edit_organizers', :scope => [:navigation]),
-                  organizers_path
-          )
-      %></li>
-    </ul>
-  </div>
-
+  <%= render 'layouts/components/navigation/main' %>
+  <%= render 'layouts/components/navigation/new_category' %>
 </div>
 
