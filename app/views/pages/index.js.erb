@@ -33,6 +33,7 @@ $(document).ready(function () {
 
     // Sets the links for the setting links.
     define_setting_links();
+    define_navigation_links();
 });
 
 
@@ -51,6 +52,17 @@ function define_setting_links() {
         return false;
     });
 
+}
+
+
+// Binds the links to their actions.
+// ---------------------------------------------------------------------------------------
+function define_navigation_links() {
+
+    $('#new_category_submit').click(function () {
+        create_category();
+        return false;
+    });
 
 }
 
@@ -58,8 +70,48 @@ function define_setting_links() {
 // Opens a popup for creating a new category.
 // ---------------------------------------------------------------------------------------
 function new_category() {
-
     show_navigation_view('#navigation-new_category');
+}
+
+
+// Creates a popup for creating a new category.
+// ---------------------------------------------------------------------------------------
+function create_category() {
+
+    $.ajax({
+        type: "POST",
+        url: "<%= categories_path(:format => 'json') %>",
+        data: {
+            category: {
+                name: document.getElementById("new_category_name").value
+            }
+        },
+        success: function (data, textStatus, xhr) {
+
+            if (xhr.status == 201) {
+
+                // OK.
+                alert('ok - change this notification');
+
+                // Now reload the categories in the menu.
+                load_categories();
+
+                // Close the new view.
+                close_navigation_page();
+
+                // And clear the input field of this form for the next time.
+                $('#new_category_name').val('');
+
+
+            } else {
+                alert("<%= I18n.t('invalid_data', :scope => [:pages, :views, :index]) %>");
+            }
+
+        },
+        error: function (response) {
+            alert("<%= I18n.t('invalid_data', :scope => [:pages, :views, :index]) %>");
+        }
+    });
 
 }
 
