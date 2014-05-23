@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
 
   root :to => 'pages#index'
-#  get '/:locale' => 'pages#index'
 
   scope '/(:locale)', :locale => /en|de/ do
 
@@ -13,7 +12,6 @@ Rails.application.routes.draw do
     resources :categories, :only => [:index, :create, :update, :destroy]
 
     resources :organizers
-    resources :markers
     resources :places
 
   end

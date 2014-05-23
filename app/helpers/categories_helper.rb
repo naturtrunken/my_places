@@ -3,8 +3,7 @@ module CategoriesHelper
   # ---------------------------------------------------------------------------------------
   def category_params
     params.require(:category).permit(
-        :name,
-        :marker_id
+        :name
     )
   end
 
