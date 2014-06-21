@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     get 'index' => 'pages#index',
         :as => :index
 
-    get '/categories/:id/places' => 'categories#places',
+    get '/categories/places' => 'categories#places',
         :as => :category_places
     resources :categories, :only => [:index, :create, :update, :destroy]
 
