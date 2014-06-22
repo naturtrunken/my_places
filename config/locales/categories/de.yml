@@ -8,14 +8,3 @@ de:
       category:
         one: 'Kategorie'
         other: 'Kategorien'
-  categories:
-    controllers:
-      create:
-        success: 'Die Kategorie ist angelegt worden.'
-      update:
-        success: 'Die Kategorie ist aktualisiert worden.'
-    views:
-      edit:
-        title: 'Kategorie bearbeiten'
-      new:
-        title: 'Kategorie anlegen'

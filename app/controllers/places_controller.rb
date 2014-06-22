@@ -51,7 +51,7 @@ class PlacesController < ApplicationController
     respond_to do |format|
       if @place.save
         format.html { redirect_to @place, notice: I18n.t('success', :scope => [:places, :controllers, :create]) }
-        format.json { render :show, status: :created, location: @place }
+        format.json { render status: 201, json: { :status => '0' } }
       else
         format.html { render :new }
         format.json { render json: @place.errors, status: :unprocessable_entity }

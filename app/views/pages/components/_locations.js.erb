@@ -1,0 +1,117 @@
+// =======================================================================================
+// LOCATIONS
+// =======================================================================================
+
+
+// Creates a new place at the given location.
+// ---------------------------------------------------------------------------------------
+function create_new_location_at(latitude, longitude) {
+
+    // Create a temporary marker.
+    new_marker = L.marker(
+            [latitude, longitude],
+            {
+                draggable: true
+            }
+    );
+
+    new_marker.bindPopup(
+                    '<h1><%= I18n.t('title', :scope => [:pages, :views, :index, :popup, :new]) %></h1>' +
+                    '<input type="text" name="place[name]" id="place[name]" value="" placeholder="<%= I18n.t('name', :scope => [:activerecord, :attributes, :place]) %>"/>' +
+                    '<textarea name="place[note]" id="place[note]" placeholder="<%= I18n.t('note', :scope => [:activerecord, :attributes, :place]) %>"/></textarea>' +
+                    '<input type="hidden" name="place[latitude]" id="place[latitude]" value="' + latitude + '" />' +
+                    '<input type="hidden" name="place[longitude]" id="place[longitude]" value="' + longitude + '" />' +
+                    '<%=
+                        select(
+                            'place',
+                            'category_id',
+                            options_for_select(Category.all.collect { |p| [p.name, p.id] })
+                        ).gsub("\n", '').html_safe
+                    %>' +
+                    '<input type="button" name="delete_marker" id="delete_marker" onclick="delete_marker()" value="<%= I18n.t('delete_marker', :scope => [:pages, :views, :index]) %>" />' +
+                    '<input type="button" name="new_place_submit" id="new_place_submit" onclick="create_new_location()" value="<%= I18n.t('create_place', :scope => [:pages, :views, :index]) %>" />' +
+                    '<div style="clear: both;"></div>'
+    ).openPopup();
+
+    // Add it to the map.
+    new_marker.addTo(map);
+
+    // Disable the adding of new markers.
+    set_marker_adding_enabled(false);
+
+}
+
+
+
+// Creates the new location via an ajax request.
+// ---------------------------------------------------------------------------------------
+function create_new_location() {
+
+    $.ajax({
+        type: "POST",
+        url: "<%= places_path(:format => 'json') %>",
+        data: {
+            place: {
+                name: document.getElementById("place[name]").value,
+                note: document.getElementById("place[note]").value,
+                category_id: document.getElementById("place_category_id").value,
+                latitude: document.getElementById("place[latitude]").value,
+                longitude: document.getElementById("place[longitude]").value
+            }
+        },
+        success: function (data, textStatus, xhr) {
+
+            if (xhr.status == 201) {
+
+                // Remove the temporary marker.
+                map.removeLayer(new_marker);
+
+                // Enable the adding of new markers again.
+                set_marker_adding_enabled(true);
+
+                alert("<%= I18n.t('place_created', :scope => [:pages, :views, :index]) %>");
+
+            } else {
+                alert("<%= I18n.t('invalid_data', :scope => [:pages, :views, :index]) %>");
+            }
+
+        },
+        error: function (response) {
+            alert("<%= I18n.t('invalid_data', :scope => [:pages, :views, :index]) %>");
+        }
+    });
+
+}
+
+
+
+// Deletes location via an ajax request.
+// ---------------------------------------------------------------------------------------
+function delete_location(place_id, marker_id) {
+
+    if (!(confirm("<%= I18n.t('are_you_sure', :scope => [:general]) %>"))) {
+        return;
+    }
+
+    $.ajax({
+        type: "DELETE",
+        url: "/places/" + place_id + ".json",
+        data: {},
+        success: function (data, textStatus, xhr) {
+
+            if (xhr.status == 204) {
+
+                // Remove the marker.
+                map.removeLayer(marker[marker_id]);
+
+            } else {
+                alert("<%= I18n.t('general_error', :scope => [:general]) %>");
+            }
+
+        },
+        error: function (response) {
+            alert("<%= I18n.t('general_error', :scope => [:general]) %>");
+        }
+    });
+
+}
