@@ -3,15 +3,13 @@
 <%= render 'pages/components/locations' %>
 
 
-// Configuration variables
-// ---------------------------------------------------------------------------------------
-var default_view_latitude = 52.518611;
-var default_view_longitude = 13.408056;
-var default_view_zoom_level = 11;
 
 
 // Internal variables
 // ---------------------------------------------------------------------------------------
+var default_view_latitude = <%= Rails.configuration.global[:map][:default_latitude] %>;
+var default_view_longitude = <%= Rails.configuration.global[:map][:default_longitude] %>;
+var default_view_zoom_level = <%= Rails.configuration.global[:map][:default_zoom_level] %>;
 var map;
 var open_navigation_page = '';
 
