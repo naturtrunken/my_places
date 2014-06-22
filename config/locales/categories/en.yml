@@ -8,14 +8,3 @@ en:
       category:
         one: 'Category'
         other: 'Categories'
-  categories:
-    controllers:
-      create:
-        success: 'The category has been created.'
-      update:
-        success: 'The category has been successfully updated.'
-    views:
-      edit:
-        title: 'Editing category'
-      new:
-        title: 'New category'

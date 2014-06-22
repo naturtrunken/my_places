@@ -1,0 +1,176 @@
+// =======================================================================================
+// MARKERS
+// =======================================================================================
+
+// 2D array: marker[category_id][:marker_id]
+var marker = [];
+
+var new_marker;
+var marker_adding_enabled = true;
+
+
+// Creates a new place at the center of the current map view.
+// ---------------------------------------------------------------------------------------
+function create_marker() {
+
+    // Do nothing, if the adding of new markers is disabled.
+    if (!(marker_adding_enabled)) {
+        alert("<%= I18n.t('marker_adding_disabled', :scope => [:pages, :views, :index]) %>");
+        return;
+    }
+
+    // Get the current center of the map.
+    current_position = map.getCenter();
+
+    // Create a new marker there.
+    create_new_location_at(current_position.lat, current_position.lng);
+
+}
+
+
+// Activates or deactivates the buttons for adding new markers.
+// ---------------------------------------------------------------------------------------
+function set_marker_adding_enabled(b) {
+
+    // If the new status is the old status, do nothing here.
+    if (marker_adding_enabled == b) {
+        return;
+    }
+
+    // Set the global status.
+    marker_adding_enabled = b;
+
+    // Enabled/disable the buttons
+    if (marker_adding_enabled) {
+        $('#create_new_location_marker_here').removeClass('marker_adding_disabled');
+        $('#create_new_location_marker').removeClass('marker_adding_disabled');
+    } else {
+        $('#create_new_location_marker_here').addClass('marker_adding_disabled');
+        $('#create_new_location_marker').addClass('marker_adding_disabled');
+    }
+
+}
+
+
+// Creates a new place at the current location.
+// ---------------------------------------------------------------------------------------
+function create_marker_here() {
+
+    // Do nothing, if the adding of new markers is disabled.
+    if (!(marker_adding_enabled)) {
+        alert("<%= I18n.t('marker_adding_disabled', :scope => [:pages, :views, :index]) %>");
+        return;
+    }
+
+    // Try to fetch the current location.
+    if (navigator.geolocation) {
+
+        navigator.geolocation.getCurrentPosition(function (position) {
+
+            // Set the map to the new position.
+            map.setView(
+                    new L.LatLng(
+                            position.coords.latitude,
+                            position.coords.longitude
+                    ),
+                    18
+            );
+
+            create_new_location_at(position.coords.latitude, position.coords.longitude);
+
+        });
+
+    } else {
+        alert("<%= I18n.t('no_position', :scope => [:places, :views, :form]) %>");
+    }
+
+}
+
+// Removes the new marker from the map.
+// ---------------------------------------------------------------------------------------
+function delete_marker() {
+
+    // Remove the marker.
+    map.removeLayer(new_marker);
+
+    // Enable the adding of new markers again.
+    set_marker_adding_enabled(true);
+}
+
+
+// Load the markers for the given category and shows them on the map.
+// ---------------------------------------------------------------------------------------
+function show_markers_for_category(category_id) {
+
+    $.ajax({
+        type: "GET",
+        url: "<%= category_places_path(:format => 'json') %>",
+        data: {
+            id: category_id
+        },
+        success: function (data, textStatus, xhr) {
+
+            if (!(xhr.status == 200)) {
+                alert("<%= I18n.t('invalid_data', :scope => [:pages, :views, :index]) %>");
+                return;
+            }
+
+            for (var i in data) {
+
+                // Create a new marker in this category.
+                if (!(marker[category_id])) {
+                    marker[category_id] = [];
+                }
+                var new_marker_index = marker[category_id].length;
+                marker[category_id][new_marker_index] = L.marker(
+                        [data[i]['latitude'], data[i]['longitude']],
+                        {
+                            draggable: false,
+                            icon: L.icon({
+                                iconUrl: '/assets/images/marker-icon.png',
+                                iconRetinaUrl: '/assets/images/marker-icon-2x.png',
+                                iconSize: [25, 41],
+                                iconAnchor: [12, 40],
+                                popupAnchor: [-3, -76],
+                                shadowUrl: '',
+                                shadowRetinaUrl: '',
+                                shadowSize: [68, 95],
+                                shadowAnchor: [22, 94]
+                            })
+                        }
+                );
+
+                marker[category_id][new_marker_index].bindPopup(
+                                '<b>' + data[i]['name'] + '</b><br/>' +
+                                        data[i]['address'] +
+                                '<br/><br/>' +
+                                '<a href="/places/' + data[i]['id'] + '/edit"><%= I18n.t('edit', :scope => [:general]) %></a>' +
+                                '<span class="inline-divider">|</span>' +
+                                '<a href="#" onclick="delete_location(' + data[i]['id'] + ', ' + i + ')"><%= I18n.t('destroy', :scope => [:general]) %></a>'
+                ).openPopup();
+
+                // Add the new marker to the map.
+                marker[category_id][new_marker_index].addTo(map);
+            }
+
+        },
+        error: function (response) {
+            alert("<%= I18n.t('invalid_data', :scope => [:pages, :views, :index]) %>");
+        }
+    });
+
+}
+
+
+// Destroy the markers for the given category on the map.
+// ---------------------------------------------------------------------------------------
+function destroy_markers_for_category(category_id) {
+
+    // Iterate through all markers in this category.
+    for(var i in marker[category_id]) {
+        map.removeLayer(marker[category_id][i]);
+    }
+
+}
+
+

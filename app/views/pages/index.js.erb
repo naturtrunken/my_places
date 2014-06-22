@@ -1,49 +1,34 @@
-// Configuration variables
-// ---------------------------------------------------------------------------------------
-var default_view_latitude = 52.518611;
-var default_view_longitude = 13.408056;
-var default_view_zoom_level = 11;
+<%= render 'pages/components/markers' %>
+<%= render 'pages/components/categories' %>
+<%= render 'pages/components/locations' %>
+
+
 
 
 // Internal variables
 // ---------------------------------------------------------------------------------------
+var default_view_latitude = <%= Rails.configuration.global[:map][:default_latitude] %>;
+var default_view_longitude = <%= Rails.configuration.global[:map][:default_longitude] %>;
+var default_view_zoom_level = <%= Rails.configuration.global[:map][:default_zoom_level] %>;
 var map;
-var marker = [];
-var marker_data = [];
-var marker_icon = [];
-var visible_categories = [];
-var marker_count = 0;
-var category_marker = [];
-var new_marker;
-var marker_adding_enabled = true;
+var open_navigation_page = '';
 
 
 // ---------------------------------------------------------------------------------------
 $(document).ready(function () {
 
-    // Bind the handling functions to the navigation links.
-    $(".category_selection_link").click(function () {
-        toggle_category($(this));
-        redraw_marker();
-        return false;
-    });
+    // Sets the links for the setting links.
+    define_setting_links();
+    define_navigation_links();
 
-    // Load the markers of the categories.
-    create_category_marker();
-
-    // Create the markers.
-    create_marker_objects();
+    // Load the categories.
+    load_categories();
 });
 
-
-// ---------------------------------------------------------------------------------------
 $(document).on('pagecreate', '#index', function (e) {
 
     // Load the map
     initmap();
-
-    // Create all marker.
-    create_saved_marker();
 
     // Reload the map tiles after the (jquery mobile) initialisation again.
     setTimeout(
@@ -69,206 +54,64 @@ $(document).on('pagecreate', '#index', function (e) {
 });
 
 
-// Creates a new place at the center of the current map view.
+// Binds the settings links to their actions.
 // ---------------------------------------------------------------------------------------
-function create_marker() {
+function define_setting_links() {
 
-    // Do nothing, if the adding of new markers is disabled.
-    if (!(marker_adding_enabled)) {
-        alert("<%= I18n.t('marker_adding_disables', :scope => [:pages, :views, :index]) %>");
-        return;
-    }
+    $('#action-add_category').click(function () {
+        new_category();
+        return false;
+    });
 
-    // Get the current center of the map.
-    current_position = map.getCenter();
-
-    // Create a new marker there.
-    create_new_location_at(current_position.lat, current_position.lng);
-
-}
-
-
-// Activates or deactivates the buttons for adding new markers.
-// ---------------------------------------------------------------------------------------
-function set_marker_adding_enabled(b) {
-
-    // If the new status is the old status, do nothing here.
-    if (marker_adding_enabled == b) {
-        return;
-    }
-
-    // Set the global status.
-    marker_adding_enabled = b;
-
-    // Enabled/disable the buttons
-    if (marker_adding_enabled) {
-        $('#create_new_location_marker_here').removeClass('marker_adding_disabled');
-        $('#create_new_location_marker').removeClass('marker_adding_disabled');
-    } else {
-        $('#create_new_location_marker_here').addClass('marker_adding_disabled');
-        $('#create_new_location_marker').addClass('marker_adding_disabled');
-    }
-
-}
-
-
-// Creates a new place at the current location.
-// ---------------------------------------------------------------------------------------
-function create_marker_here() {
-
-    // Do nothing, if the adding of new markers is disabled.
-    if (!(marker_adding_enabled)) {
-        alert("<%= I18n.t('marker_adding_disables', :scope => [:pages, :views, :index]) %>");
-        return;
-    }
-
-    // Try to fetch the current location.
-    if (navigator.geolocation) {
-
-        navigator.geolocation.getCurrentPosition(function (position) {
-
-            // Set the map to the new position.
-            map.setView(
-                    new L.LatLng(
-                            position.coords.latitude,
-                            position.coords.longitude
-                    ),
-                    18
-            );
-
-            create_new_location_at(position.coords.latitude, position.coords.longitude);
-
-        });
-
-    } else {
-        alert("<%= I18n.t('no_position', :scope => [:places, :views, :form]) %>");
-    }
-
-}
-
-
-// Creates a new place at the given location.
-// ---------------------------------------------------------------------------------------
-function create_new_location_at(latitude, longitude) {
-
-    // Create a temporary marker.
-    new_marker = L.marker(
-            [latitude, longitude],
-            {
-                draggable: true
-            }
-    );
-
-    new_marker.bindPopup(
-                    '<input type="text" name="place[name]" id="place[name]" value="" placeholder="<%= I18n.t('new_place_name_placeholder', :scope => [:pages, :views, :index]) %>"/>' +
-                    '<br/><br/>' +
-                    '<input type="hidden" name="place[latitude]" id="place[latitude]" value="' + latitude + '" />' +
-                    '<input type="hidden" name="place[longitude]" id="place[longitude]" value="' + longitude + '" />' +
-                    '<%=
-                        select(
-                            'place',
-                            'category_id',
-                            options_for_select(Category.all.collect { |p| [p.name, p.id] })
-                        ).gsub("\n", '').html_safe
-                    %>' +
-                    '<br/><br/>' +
-                    '<input type="button" name="new_place_submit" onclick="create_new_location()" value="<%= I18n.t('save', :scope => [:general]) %>" />' +
-                    '<br/><br/>' +
-                    '<a href="#" onclick="delete_marker();"><%= I18n.t('delete_marker', :scope => [:pages, :views, :index]) %></a>'
-    ).openPopup();
-
-    // Add it to the map.
-    new_marker.addTo(map);
-
-    // Disable the adding of new markers.
-    set_marker_adding_enabled(false);
-
-}
-
-
-// Removes the new marker from the map.
-// ---------------------------------------------------------------------------------------
-function delete_marker() {
-
-    // Remove the marker.
-    map.removeLayer(new_marker);
-
-    // Enable the adding of new markers again.
-    set_marker_adding_enabled(true);
-}
-
-
-// Creates the new location via an ajax request.
-// ---------------------------------------------------------------------------------------
-function create_new_location() {
-
-    $.ajax({
-        type: "POST",
-        url: "<%= places_path(:format => 'json') %>",
-        data: {
-            place: {
-                name: document.getElementById("place[name]").value,
-                category_id: document.getElementById("place_category_id").value,
-                latitude: document.getElementById("place[latitude]").value,
-                longitude: document.getElementById("place[longitude]").value
-            }
-        },
-        success: function (data, textStatus, xhr) {
-
-            if (xhr.status == 201) {
-
-                // Remove the temporary marker.
-                map.removeLayer(new_marker);
-
-                // Enable the adding of new markers again.
-                set_marker_adding_enabled(true);
-
-                alert("<%= I18n.t('place_created', :scope => [:pages, :views, :index]) %>");
-
-            } else {
-                alert("<%= I18n.t('invalid_data', :scope => [:pages, :views, :index]) %>");
-            }
-
-        },
-        error: function (response) {
-            alert("<%= I18n.t('invalid_data', :scope => [:pages, :views, :index]) %>");
-        }
+    // Bind the back buttons of the navigation views.
+    $('.action-close_navigation_page').click(function () {
+        close_navigation_page();
+        return false;
     });
 
 }
 
 
-
-// Deletes location via an ajax request.
+// Binds the links to their actions.
 // ---------------------------------------------------------------------------------------
-function delete_location(place_id, marker_id) {
+function define_navigation_links() {
 
-    if (!(confirm("<%= I18n.t('are_you_sure', :scope => [:general]) %>"))) {
-        return;
-    }
-
-    $.ajax({
-        type: "DELETE",
-        url: "/places/" + place_id + ".json",
-        data: {},
-        success: function (data, textStatus, xhr) {
-
-            if (xhr.status == 204) {
-
-                // Remove the marker.
-                map.removeLayer(marker[marker_id]);
-
-            } else {
-                alert("<%= I18n.t('general_error', :scope => [:general]) %>");
-            }
-
-        },
-        error: function (response) {
-            alert("<%= I18n.t('general_error', :scope => [:general]) %>");
-        }
+    $('#new_category_submit').click(function () {
+        create_category();
+        return false;
     });
 
 }
+
+
+// Shows a navigation page.
+// ---------------------------------------------------------------------------------------
+function show_navigation_view(element_id) {
+
+    // Hide the main navigation menu.
+    $('#navigation-main').addClass('navigation_hidden').removeClass('navigation_visible')
+
+    // Show the given element.
+    $(element_id).removeClass('navigation_hidden').addClass('navigation_visible');
+
+    // Save the name of the element. We need this information later for hiding it.
+    open_navigation_page = element_id;
+
+}
+
+
+// Closes a navigation page.
+// ---------------------------------------------------------------------------------------
+function close_navigation_page() {
+
+    // Shows the main navigation menu.
+    $('#navigation-main').removeClass('navigation_hidden').addClass('navigation_visible')
+
+    // Hide all elements which are currently visible.
+    $(open_navigation_page).addClass('navigation_hidden').removeClass('navigation_visible');
+
+}
+
 
 
 // Creates the map.
@@ -296,132 +139,4 @@ function initmap() {
 }
 
 
-// Create objects for all markers.
-// ---------------------------------------------------------------------------------------
-function create_saved_marker() {
-    <% @places.each do |place| %>
-    marker_data[marker_count] = [
-        <%= place.latitude %>,
-        <%= place.longitude %>,
-        <%= place.category_id %>,
-        "<%= place.name %>",
-        "<%= place.known ? I18n.t('general.yes') : I18n.t('general.noo') %>",
-        "<%= place.address %>",
-        "<%= place.id %>"
-    ];
-    marker_count++;
-    <% end %>
-}
-
-
-// Toggles a category id to the list of visible categories.
-// ---------------------------------------------------------------------------------------
-function toggle_category(e) {
-
-    // Get the category_id from the data tag of the given element.
-    var category_id = parseInt(e.attr('data-category_id'));
-
-    if ($.inArray(category_id, visible_categories) == -1) {
-
-        // The category was not selected before.
-
-        // Add the category to the list.
-        visible_categories.push(category_id);
-
-    } else {
-
-        // The category was selected before.
-
-        // Remove the element.
-        visible_categories.splice(visible_categories.indexOf(category_id), 1);
-    }
-
-    // Update the navigation view.
-    toggle_navigation_selection(category_id);
-}
-
-
-// Create the marker of all selected categories on the map.
-// ---------------------------------------------------------------------------------------
-function redraw_marker() {
-
-    // 1. Delete all marker.
-    for (var i = 0; i < marker.length; i++) {
-        map.removeLayer(marker[i]);
-    }
-    marker = [];
-    marker_count = 0;
-
-    // 2. Draw the selected markers.
-    for (var i = 0; i < marker_data.length; i++) {
-
-        // Contains the array visible_categories the value of the current
-        // category_id in marker[i][2]?
-        var index = $.inArray(marker_data[i][2], visible_categories);
-
-        if (index == -1) {
-            // No. Do nothing.
-            continue;
-        }
-
-        // Yes. Draw the marker on the map.
-        marker[marker_count] = L.marker(
-                [marker_data[i][0], marker_data[i][1]],
-                {
-                    draggable: false,
-                    icon: marker_icon[category_marker[marker_data[i][2]]]
-                }
-        );
-        marker[marker_count].bindPopup(
-                        '<b>' + marker_data[i][3] + '</b><br/>' +
-                        '<i><%= I18n.t('known', :scope => [:activerecord, :attributes, :place]) %></i>: ' + marker_data[i][4] + '<br/><br/>' +
-                        marker_data[i][5] +
-                        '<br/><br/>' +
-                        '<a href="/places/' + marker_data[i][6] + '/edit"><%= I18n.t('edit', :scope => [:general]) %></a>' +
-                        '<span class="inline-divider">|</span>' +
-                        '<a href="#" onclick="delete_location(' + marker_data[i][6] + ', ' + i + ')"><%= I18n.t('destroy', :scope => [:general]) %></a>'
-        ).openPopup();
-        marker[marker_count].addTo(map);
-        marker_count++;
-    }
-
-}
-
-
-// Updates the state of the navigation elements.
-// ---------------------------------------------------------------------------------------
-function toggle_navigation_selection(category_id) {
-    if ($('#category-' + category_id).hasClass('element_selected')) {
-        $('#category-' + category_id).removeClass('element_selected');
-    } else {
-        $('#category-' + category_id).addClass('element_selected');
-    }
-}
-
-
-// Creates the marker objects.
-// ---------------------------------------------------------------------------------------
-function create_marker_objects() {
-    <% Marker.all.each do |marker| %>
-    marker_icon[<%= marker.id.to_s %>] = L.icon({
-        iconUrl: '/assets/images/<%= marker.icon %>.png',
-        iconRetinaUrl: '/assets/images/<%= marker.icon %>-2x.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 40],
-        popupAnchor: [-3, -76],
-        shadowUrl: '',
-        shadowRetinaUrl: '',
-        shadowSize: [68, 95],
-        shadowAnchor: [22, 94]
-    });
-    <% end %>
-}
-
-
-// ---------------------------------------------------------------------------------------
-function create_category_marker() {
-    <% Category.all.each do |category| %>
-    category_marker[<%= category.id.to_s %>] = <%= category.marker_id %>;
-    <% end %>
-}
 

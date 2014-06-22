@@ -1,0 +1,26 @@
+<div id="navigation-new_category" class="navigation_hidden">
+  <%=
+      link_to(
+              I18n.t('back', :scope => [:general]),
+              '#',
+              :class => 'action-close_navigation_page'
+      )
+  %>
+  <h2>
+    <%= I18n.t('add_category', :scope => [:navigation]) %>
+  </h2>
+  <%=
+      text_field_tag(
+              'category[name]',
+              '',
+              :placeholder => I18n.t('name', :scope => [:activerecord, :attributes, :category]),
+              :id => 'new_category_name'
+      )
+  %>
+  <%=
+      button_tag(
+              I18n.t('create', :scope => [:general]),
+              :id => 'new_category_submit'
+      )
+  %>
+</div>
