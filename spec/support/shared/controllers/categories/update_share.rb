@@ -22,11 +22,11 @@ shared_context 'CategoriesController#update shared spec' do |state|
       end
 
       it 'should return JSON status 200' do
-        response.status.should == 200
+        expect(response.status).to eql(200)
       end
 
       it 'should has updated the category' do
-        @category.reload.name.should eq ('z' * Rails.configuration.global[:category][:model][:name][:maximum_length])
+        expect(@category.reload.name).to eql('z' * Rails.configuration.global[:category][:model][:name][:maximum_length])
       end
 
     end # valid data
@@ -43,11 +43,11 @@ shared_context 'CategoriesController#update shared spec' do |state|
       end
 
       it 'should return JSON status 400' do
-        response.status.should == 400
+        expect(response.status).to eql(400)
       end
 
       it 'should not has updated the category' do
-        @category.reload.name.should eq ('a' * Rails.configuration.global[:category][:model][:name][:maximum_length])
+        expect(@category.reload.name).to eql('a' * Rails.configuration.global[:category][:model][:name][:maximum_length])
       end
 
     end # invalid data

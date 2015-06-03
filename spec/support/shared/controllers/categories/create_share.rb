@@ -14,13 +14,13 @@ shared_context 'CategoriesController#create shared spec' do |state|
       end
 
       it 'should return JSON status 201' do
-        response.status.should == 201
+        expect(response.status).to eql(201)
       end
 
       it 'should have created the new category' do
-        Category.where(
-            :name => 'q' * Rails.configuration.global[:category][:model][:name][:maximum_length]
-        ).count.should == 1
+        expect(Category.where(
+                   :name => 'q' * Rails.configuration.global[:category][:model][:name][:maximum_length]
+               ).count).to eql(1)
       end
 
     end
@@ -36,7 +36,7 @@ shared_context 'CategoriesController#create shared spec' do |state|
       end
 
       it 'should return JSON status 500' do
-        response.status.should == 500
+        expect(response.status).to eql(500)
       end
 
     end

@@ -26,5 +26,6 @@ config/secrets.yml
 # JetBrain's RubyMine IDE files
 .idea
 
+# Mac OS files
 .DS_Store
 

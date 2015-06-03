@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CategoriesController do
+describe CategoriesController, :type => :controller do
   include_context 'CategoriesController#index shared spec'
   include_context 'CategoriesController#create shared spec'
   include_context 'CategoriesController#update shared spec'

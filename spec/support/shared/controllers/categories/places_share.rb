@@ -22,12 +22,12 @@ shared_context 'CategoriesController#places shared spec' do |state|
     end
 
     it 'should return JSON status 200' do
-      response.status.should == 200
+      expect(response.status).to eql(200)
     end
 
     it 'should return three places' do
       json_response = JSON.parse(response.body)
-      json_response.count.should == 3
+      expect(json_response.count).to eql(3)
     end
 
   end # #places
